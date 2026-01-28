@@ -7,8 +7,9 @@ public enum AlgoritmoRecomendacion {
 
     private String descripcion;
 
-    //Construtor en Enum hay que ser vacio
-    AlgoritmoRecomendacion() {
+    //Construtor
+    AlgoritmoRecomendacion(String descripcion) {
+        this.descripcion = descripcion;
     }
     //getter and setter
     public void setDescripcion(String descripcion) {
