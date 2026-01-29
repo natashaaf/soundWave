@@ -8,10 +8,10 @@ public enum TipoAnuncio {
     private int duracionSegundos;
     private double costoPorImpresion;
 
-    //construtor vacio
+    // Constructores
     TipoAnuncio(){
     }
-    //getter and setter
+    //Getters and setters
     public int getDuracionSegundos(){
         return duracionSegundos;
     }

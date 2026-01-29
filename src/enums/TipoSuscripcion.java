@@ -11,10 +11,10 @@ public enum TipoSuscripcion {
     private int limiteReproducciones;
     private boolean descargasOffline;
 
-    //construtor vacio
+    // Construtores
     TipoSuscripcion() {
     }
-    //getter and setter
+    // Getters and setters
     public double getPrecioMensual() {
         return precioMensual;
     }

@@ -7,7 +7,7 @@ public enum AlgoritmoRecomendacion {
 
     private String descripcion;
 
-    //Construtor
+    // Constructores
     AlgoritmoRecomendacion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -15,7 +15,8 @@ public enum AlgoritmoRecomendacion {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    //metodo
+
+    // Metodos
     public String getDescripcion() {
         return descripcion;
     }

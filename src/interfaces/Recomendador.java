@@ -1,5 +1,8 @@
 package interfaces;
 
+import modelo.contenido.Contenido;
+import modelo.usuarios.Usuario;
+
 import java.util.List;
 
 public interface Recomendador {
