@@ -25,6 +25,7 @@ public enum GeneroMusical {
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
+
     //Métodos
     public String getNombre() {
         return nombre;}
