@@ -6,6 +6,6 @@ import modelo.usuarios.Usuario;
 import java.util.List;
 
 public interface Recomendador {
-    List<Contenido> recomendar (Usuario usuario);
-    List<Contenido> obtenerSimilares (Contenido contenido);
+    List<Contenido> recomendar (Usuario usuario) throws RecomendacionException;
+    List<Contenido> obtenerSimilares (Contenido contenido) throws RecomendacionException;
 }

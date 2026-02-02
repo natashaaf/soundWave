@@ -1,49 +1,64 @@
 package enums;
 
 public enum TipoSuscripcion {
-    GRATUITO,
-    PREMIUM,
-    FAMILIAR,
-    ESTUDIANTE;
+    GRATUITO(0.0, false, 50, false),
+    PREMIUM(9.99, true, -1, true),
+    FAMILIAR(14.99, true, -1, true),
+    ESTUDIANTE(4.99, true, -1, true);
 
+    //Atributos
     private double precioMensual;
     private boolean sinAnuncios;
     private int limiteReproducciones;
     private boolean descargasOffline;
+    private String nombre;
 
-    // Construtores
-    TipoSuscripcion() {
+    // Constructores
+
+    TipoSuscripcion(double precioMensual, boolean sinAnuncios, int limiteReproducciones, boolean descargasOffline, String nombre) {
+        this.sinAnuncios = sinAnuncios;
+        this.precioMensual = precioMensual;
+        this.limiteReproducciones = limiteReproducciones;
+        this.descargasOffline = descargasOffline;
+        this.nombre = nombre;
     }
+
     // Getters and setters
+
+
+    // Metodo
+
+
     public double getPrecioMensual() {
         return precioMensual;
-    }
-
-    public void setPrecioMensual(double precioMensual) {
-        this.precioMensual = precioMensual;
     }
 
     public boolean isSinAnuncios() {
         return sinAnuncios;
     }
 
-    public void setSinAnuncios(boolean sinAnuncios) {
-        this.sinAnuncios = sinAnuncios;
-    }
-
     public int getLimiteReproducciones() {
         return limiteReproducciones;
-    }
-
-    public void setLimiteReproducciones(int limiteReproducciones) {
-        this.limiteReproducciones = limiteReproducciones;
     }
 
     public boolean isDescargasOffline() {
         return descargasOffline;
     }
 
-    public void setDescargasOffline(boolean descargasOffline) {
-        this.descargasOffline = descargasOffline;
+    public boolean tieneReproduccionesIlimitadas() {
+        if (limiteReproducciones == -1)
+            return true;
+        else
+            return false;
+    }
+    @Override
+    public String toString() {
+        return "TipoSuscripcion{" +
+                "nombre='" + nombre + '\'' +
+                ", precioMensual=" + precioMensual +
+                '}';
     }
 }
+
+
+
