@@ -10,14 +10,14 @@ import java.util.UUID;
 public abstract class Contenido {
 
     //Atributos
-    private String id;
-    private String titulo;
-    private int reproducciones;
-    private int likes;
-    private int duracionSegundos;
-    private List<String> tags;
-    private boolean disponible;
-    private Date fechaPublicacion;
+    protected String id;
+    protected String titulo;
+    protected int reproducciones;
+    protected int likes;
+    protected int duracionSegundos;
+    protected List<String> tags;
+    protected boolean disponible;
+    protected Date fechaPublicacion;
 
     // Constructores
     public Contenido(String titulo, int duracionSegundos) throws DuracionInvalidaException {
@@ -31,14 +31,9 @@ public abstract class Contenido {
         this.fechaPublicacion = new Date();
 
         // Validación
-        if (duracionSegundos > 0){
+        if (duracionSegundos <= 0){
             throw new DuracionInvalidaException("La duración debe ser mayor a 0.");
         }
-
-    }
-
-    public Contenido() {
-
     }
 
     //Getters and setters
@@ -139,8 +134,8 @@ public abstract class Contenido {
         this.disponible = false;
     }
     public String getDuracionFormateada(){
-        int minutos = this.duracionSegundos;
-        int segundos = this.duracionSegundos;
+        int minutos = this.duracionSegundos / 60;
+        int segundos = this.duracionSegundos % 60;
         return String.format("Duración: ", minutos, segundos);
     }
 
