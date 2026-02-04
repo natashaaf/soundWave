@@ -36,6 +36,7 @@ public abstract class Contenido {
         }
     }
 
+
     //Getters and setters
     public String getId() {
         return id;
