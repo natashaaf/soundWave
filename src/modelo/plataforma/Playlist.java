@@ -1,9 +1,15 @@
 package modelo.plataforma;
 import enums.CriterioOrden;
+import excepciones.playlist.ContenidoDuplicadoException;
+import excepciones.playlist.PlaylistLlenaException;
+import excepciones.playlist.PlaylistVaciaException;
+import modelo.contenido.Cancion;
 import modelo.contenido.Contenido;
 import modelo.usuarios.Usuario;
+
+import java.security.PublicKey;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 public class Playlist {
 
@@ -11,126 +17,127 @@ public class Playlist {
     private String id;
     private String nombre;
     private Usuario creador;
-    private List<Contenido> contenidosList;
+    private ArrayList<Contenido> contenidos;
     private boolean esPublica;
     private int seguidores;
     private String descripcion;
     private String portadaURL;
-    private LocalDateTime fechaCreacion;
+    private Date fechaCreacion;
     private int maxContenidos;
+    private static final int MAX_CONTENIDOS_DEFAULT = 500;
 
     // Constructores
-    public Playlist(String id, String nombre, Usuario creador, List<Contenido> contenidosList, boolean esPublica, int seguidores, String descripcion, String portadaURL, LocalDateTime fechaCreacion, int maxContenidos) {
-        this.id = id;
+    public Playlist(String nombre, Usuario creador, boolean esPublica, String descripcion) {
         this.nombre = nombre;
         this.creador = creador;
-        this.contenidosList = contenidosList;
         this.esPublica = esPublica;
-        this.seguidores = seguidores;
         this.descripcion = descripcion;
-        this.portadaURL = portadaURL;
-        this.fechaCreacion = fechaCreacion;
-        this.maxContenidos = maxContenidos;
+    }
+
+    public Playlist(String nombre, Usuario creador){
+        this(nombre, creador, true, " ");
     }
     // Getters and setters
-    public String getId() {
-        return id;
+
+
+    // Métodos
+    // --- MÉTODOS SOLICITADOS ---
+
+    public void agregarContenido(Contenido contenido) throws PlaylistLlenaException, ContenidoDuplicadoException {
+        if (this.contenidos.size() >= MAX_CONTENIDOS_DEFAULT) {
+            throw new PlaylistLlenaException("Playlist llena: " + this.nombre);
+        }
+        if (this.contenidos.contains(contenido)) {
+            throw new ContenidoDuplicadoException("El contenido " + contenido.getTitulo() + " ya existe.");
+        }
+        this.contenidos.add(contenido);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public boolean eliminarContenido(String idContenido) {
+        return this.contenidos.removeIf(c -> c.getId().equals(idContenido));
     }
 
-    public String getNombre() {
-        return nombre;
+    public boolean eliminarContenido(Contenido contenido) {
+        return this.contenidos.remove(contenido);
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void ordenarPor(CriterioOrden criterio) throws PlaylistVaciaException {
+        if (estaVacia()) throw new PlaylistVaciaException("No se puede ordenar una playlist vacía.");
+
+        switch (criterio) {
+            // Ordena los contenidos de menor a mayor duración en segundos
+            case DURACION -> contenidos.sort(Comparator.comparingInt(Contenido::getDuracionSegundos));
+            // Ordena los contenidos basándose en el número de reproducciones acumuladas
+            case POPULARIDAD -> contenidos.sort(Comparator.comparingInt(Contenido::getReproducciones));
+        }
     }
 
-    public Usuario getCreador() {
-        return creador;
+    public int getDuracionTotal() {
+        int sumaDuracion = 0;
+        for (Contenido c : contenidos) {
+            sumaDuracion += c.getDuracionSegundos();
+        }
+        return sumaDuracion;
     }
 
-    public void setCreador(Usuario creador) {
-        this.creador = creador;
+    public String getDuracionTotalFormateada() {
+        int total = getDuracionTotal();
+        int h = total / 3600;
+        int m = (total % 3600) / 60;
+        int s = total % 60;
+        return String.format("%02d:%02d:%02d", h, m, s);
     }
 
-    public List<Contenido> getContenidosList() {
-        return contenidosList;
+    public void shuffle() {
+        Collections.shuffle(this.contenidos);
     }
 
-    public void setContenidosList(List<Contenido> contenidosList) {
-        this.contenidosList = contenidosList;
+    public ArrayList<Contenido> buscarContenido(String termino) {
+        ArrayList<Contenido> resultados = new ArrayList<>();
+        for (Contenido c : contenidos) {
+            if (c.getTitulo().toLowerCase().contains(termino.toLowerCase())) {
+                resultados.add(c);
+            }
+        }
+        return resultados;
     }
 
-    public boolean isEsPublica() {
-        return esPublica;
+    public void hacerPublica() { this.esPublica = true; }
+
+    public void hacerPrivada() { this.esPublica = false; }
+
+    public void incrementarSeguidores() { this.seguidores++; }
+
+    public void decrementarSeguidores() {
+        if (this.seguidores > 0) this.seguidores--;
     }
 
-    public void setEsPublica(boolean esPublica) {
-        this.esPublica = esPublica;
+    public int getNumContenidos() { return this.contenidos.size(); }
+
+    public boolean estaVacia() { return this.contenidos.isEmpty(); }
+
+    public Contenido getContenido(int posicion) {
+        if (posicion < 0 || posicion >= contenidos.size()) return null;
+        return contenidos.get(posicion);
     }
 
-    public int getSeguidores() {
-        return seguidores;
+    // --- GETTERS (Con copia defensiva) ---
+
+    public ArrayList<Contenido> getContenidos() {
+        return new ArrayList<>(this.contenidos); // Copia defensiva
     }
 
-    public void setSeguidores(int seguidores) {
-        this.seguidores = seguidores;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getPortadaURL() {
-        return portadaURL;
-    }
-
-    public void setPortadaURL(String portadaURL) {
-        this.portadaURL = portadaURL;
-    }
-
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public int getMaxContenidos() {
-        return maxContenidos;
-    }
-
-    public void setMaxContenidos(int maxContenidos) {
-        this.maxContenidos = maxContenidos;
-    }
-    public int getDuracionTotal(){
-        this.getDuracionTotal();
-        return 0;
-        //TODO
-    }
-
-    // Metodos
-    public void agregarContenido (Contenido contenido){}
-    public boolean eliminarContenido(String idContenido){
-        //TODO
-        return false;
-    }
-    public void ordernarPor(CriterioOrden criterio){}
-    public void shuffle(){}
-    public List<Contenido> buscarContenido (String termino){
-        return contenidosList;
-        //TODO
-    }
-    public void hacerPublica(){}
-    public void hacerPrivada(){}
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public Usuario getCreador() { return creador; }
+    public boolean isEsPublica() { return esPublica; }
+    public void setEsPublica(boolean esPublica) { this.esPublica = esPublica; }
+    public int getSeguidores() { return seguidores; }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public String getPortadaURL() { return portadaURL; }
+    public void setPortadaURL(String portadaURL) { this.portadaURL = portadaURL; }
+    public Date getFechaCreacion() { return fechaCreacion; }
+    public int getMaxContenidos() { return maxContenidos; }
 
 }

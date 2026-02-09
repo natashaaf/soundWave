@@ -1,67 +1,43 @@
 package utilidades;
 
 import enums.CategoriaPodcast;
+import modelo.artistas.Creador;
+import modelo.contenido.Podcast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EstadisticasCreador {
+    Creador creador;
     private int totalEpisodios;
     private long totalReproducciones;
     private double promedioReproducciones;
-    private CategoriaPodcast episodioMasPopular;
-    private HashMap categoriasFrecuentes;
+    private int totalSuscriptores;
+    private int totalLikes;
+    private int duracionTotalSegundos;
+    private Podcast episodioMasPopular;
+    private HashMap<Integer, Integer> episodiosPorTemporada;
 
     //construtor
-    public EstadisticasCreador(int totalEpisodios, long totalReproducciones, double promedioReproducciones, CategoriaPodcast episodioMasPopular, HashMap categoriasFrecuentes) {
-        this.totalEpisodios = totalEpisodios;
-        this.totalReproducciones = totalReproducciones;
-        this.promedioReproducciones = promedioReproducciones;
-        this.episodioMasPopular = episodioMasPopular;
-        this.categoriasFrecuentes = categoriasFrecuentes;
+    public EstadisticasCreador(Creador creador) {
+        this.creador = creador;
+        // Inicializa y calcula estadísticas
+        this.calcularEstadisticas();
     }
+
     //getter and setter
 
-    public int getTotalEpisodios() {
-        return totalEpisodios;
+    // Métodos
+
+    public int getDuracion() {
+        return this.duracionTotalSegundos;
     }
 
-    public void setTotalEpisodios(int totalEpisodios) {
-        this.totalEpisodios = totalEpisodios;
-    }
 
-    public long getTotalReproducciones() {
-        return totalReproducciones;
-    }
 
-    public void setTotalReproducciones(long totalReproducciones) {
-        this.totalReproducciones = totalReproducciones;
-    }
 
-    public double getPromedioReproducciones() {
-        return promedioReproducciones;
-    }
 
-    public void setPromedioReproducciones(double promedioReproducciones) {
-        this.promedioReproducciones = promedioReproducciones;
-    }
 
-    public CategoriaPodcast getEpisodioMasPopular() {
-        return episodioMasPopular;
-    }
-
-    public void setEpisodioMasPopular(CategoriaPodcast episodioMasPopular) {
-        this.episodioMasPopular = episodioMasPopular;
-    }
-
-    public HashMap getCategoriasFrecuentes() {
-        return categoriasFrecuentes;
-    }
-
-    public void setCategoriasFrecuentes(HashMap categoriasFrecuentes) {
-        this.categoriasFrecuentes = categoriasFrecuentes;
-    }
-
-    //metodo
     public String generarReporte() {
         return "utilidades.EstadisticasCreador{" +
                 "totalEpisodios=" + totalEpisodios +

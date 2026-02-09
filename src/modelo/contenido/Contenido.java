@@ -71,7 +71,7 @@ public abstract class Contenido {
     }
 
     public int getDuracionSegundos() {
-        return duracionSegundos;
+        return this.duracionSegundos;
     }
 
     public void setDuracionSegundos(int duracionSegundos) {

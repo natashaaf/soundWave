@@ -45,8 +45,6 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         this.reproduciendo = false;
         this.pausado = false;
         this.descargado = false;
-
-
     }
 
 
