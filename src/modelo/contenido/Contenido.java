@@ -4,7 +4,6 @@ import excepciones.contenido.DuracionInvalidaException;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 public abstract class Contenido {
@@ -15,7 +14,7 @@ public abstract class Contenido {
     protected int reproducciones;
     protected int likes;
     protected int duracionSegundos;
-    protected List<String> tags;
+    protected ArrayList<String> tags;
     protected boolean disponible;
     protected Date fechaPublicacion;
 
@@ -78,11 +77,11 @@ public abstract class Contenido {
         this.duracionSegundos = duracionSegundos;
     }
 
-    public List<String> getTags() {
+    public ArrayList<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 
