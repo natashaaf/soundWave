@@ -103,7 +103,7 @@ public class Creador {
     }
     public EstadisticasCreador obtenerEstadisticas(){
         // Retornamos una nueva instancia de la clase de utilidades pasando este creador (this)
-        return new EstadisticasCreador(this);
+        return new EstadisticasCreador();
     }
     public void agregarRedSocial(String red, String usuario){
         // El HashMap se encarga de añadir o actualizar si la red ya existía

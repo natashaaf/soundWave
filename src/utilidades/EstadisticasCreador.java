@@ -19,11 +19,23 @@ public class EstadisticasCreador {
     private HashMap<Integer, Integer> episodiosPorTemporada;
 
     //construtor
-    public EstadisticasCreador(Creador creador) {
-        this.creador = creador;
-        // Inicializa y calcula estadísticas
-        this.calcularEstadisticas();
+
+//    public EstadisticasCreador(Creador creador, int totalEpisodios, long totalReproducciones, double promedioReproducciones, int totalSuscriptores, int totalLikes, int duracionTotalSegundos, Podcast episodioMasPopular, HashMap<Integer, Integer> episodiosPorTemporada) {
+//        this.creador = creador;
+//        this.totalEpisodios = totalEpisodios;
+//        this.totalReproducciones = totalReproducciones;
+//        this.promedioReproducciones = promedioReproducciones;
+//        this.totalSuscriptores = totalSuscriptores;
+//        this.totalLikes = totalLikes;
+//        this.duracionTotalSegundos = duracionTotalSegundos;
+//        this.episodioMasPopular = episodioMasPopular;
+//        this.episodiosPorTemporada = episodiosPorTemporada;
+//    }
+
+    public EstadisticasCreador() {
+
     }
+
 
     //getter and setter
 
@@ -44,7 +56,6 @@ public class EstadisticasCreador {
                 ", totalReproducciones=" + totalReproducciones +
                 ", promedioReproducciones=" + promedioReproducciones +
                 ", episodioMasPopular=" + episodioMasPopular +
-                ", categoriasFrecuentes=" + categoriasFrecuentes +
                 '}';
     }
 

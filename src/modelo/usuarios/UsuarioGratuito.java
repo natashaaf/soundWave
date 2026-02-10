@@ -1,23 +1,29 @@
 package modelo.usuarios;
 
 import enums.TipoSuscripcion;
+import excepciones.usuario.EmailInvalidoException;
+import excepciones.usuario.PasswordDebilException;
+import modelo.contenido.Contenido;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class UsuarioGratuito extends Usuario {
     private int anunciosEscuchados;
-    private LocalDateTime ultimoAnuncio;
+    private Date ultimoAnuncio;
     private int reproduccionesHoy;
     private int cancionesSinAnuncio;
 
     //construtor
-    public UsuarioGratuito(String id, String nombre, String email, String password, TipoSuscripcion suscripcion, List<Contenido> historial, List<Playlist> misPlaylists, LocalDateTime fechaRegistro, int anunciosEscuchados, LocalDateTime ultimoAnuncio, int reproduccionesHoy, int cancionesSinAnuncio) {
-        super(id, nombre, email, password, suscripcion, historial, misPlaylists, fechaRegistro);
+
+    public UsuarioGratuito(String nombre, String email, String password, TipoSuscripcion suscripcion, int anunciosEscuchados, Date ultimoAnuncio, int reproduccionesHoy, int cancionesSinAnuncio) throws EmailInvalidoException, PasswordDebilException {
+        super(nombre, email, password, suscripcion);
         this.anunciosEscuchados = anunciosEscuchados;
         this.ultimoAnuncio = ultimoAnuncio;
         this.reproduccionesHoy = reproduccionesHoy;
         this.cancionesSinAnuncio = cancionesSinAnuncio;
     }
+
     //getter and setter
     public int getAnunciosEscuchados() {
         return anunciosEscuchados;
@@ -27,11 +33,11 @@ public class UsuarioGratuito extends Usuario {
         this.anunciosEscuchados = anunciosEscuchados;
     }
 
-    public LocalDateTime getUltimoAnuncio() {
+    public Date getUltimoAnuncio() {
         return ultimoAnuncio;
     }
 
-    public void setUltimoAnuncio(LocalDateTime ultimoAnuncio) {
+    public void setUltimoAnuncio(Date ultimoAnuncio) {
         this.ultimoAnuncio = ultimoAnuncio;
     }
 
@@ -66,9 +72,9 @@ public class UsuarioGratuito extends Usuario {
 
     }
 
-
     @Override
     public void reproducir(Contenido contenido) {
 
     }
+
 }

@@ -1,10 +1,10 @@
 package enums;
 
 public enum TipoSuscripcion {
-    GRATUITO(0.0, false, 50, false),
-    PREMIUM(9.99, true, -1, true),
-    FAMILIAR(14.99, true, -1, true),
-    ESTUDIANTE(4.99, true, -1, true);
+    GRATUITO(0.0, false, 50, false, "Gratuito"),
+    PREMIUM(9.99, true, -1, true, "Premium"),
+    FAMILIAR(14.99, true, -1, true, "Familiar"),
+    ESTUDIANTE(4.99, true, -1, true, "Estudiante");
 
     //Atributos
     private double precioMensual;

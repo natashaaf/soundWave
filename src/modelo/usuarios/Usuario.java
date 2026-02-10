@@ -1,8 +1,14 @@
 package modelo.usuarios;
 
 import enums.TipoSuscripcion;
+import excepciones.usuario.EmailInvalidoException;
+import excepciones.usuario.PasswordDebilException;
+import modelo.contenido.Contenido;
+import modelo.plataforma.Playlist;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 
 public abstract class Usuario {
     private String id;
@@ -10,25 +16,27 @@ public abstract class Usuario {
     private String email;
     private String password;
     private TipoSuscripcion suscripcion;
-    private List<Contenido> historial;
-    private List<Playlist> misPlaylists;
-    private LocalDateTime fechaRegistro;
+    private ArrayList<Playlist> misPlaylists;
+    private ArrayList<Contenido> historial;
+    private Date fechaRegistro;
+    private ArrayList<Playlist> playlistsSeguidas;
+    private ArrayList<Contenido> contenidosLiked;
 
-    //construtor
-    public Usuario(String id, String nombre, String email, String password, TipoSuscripcion suscripcion, List<Contenido> historial, List<Playlist> misPlaylists, LocalDateTime fechaRegistro) {
-        this.id = id;
+    // Constructores
+    public Usuario(String nombre, String email, String password, TipoSuscripcion suscripcion) throws EmailInvalidoException, PasswordDebilException {
         this.nombre = nombre;
         this.email = email;
         this.password = password;
         this.suscripcion = suscripcion;
-        this.historial = historial;
-        this.misPlaylists = misPlaylists;
-        this.fechaRegistro = fechaRegistro;
     }
 
     public abstract void reproducir (Contenido contenido);
 
-    //metodos
+    // Métodos
+
+    // MétodoAbstracto
+
+
     public String crearPlaylist(String nombre){
         return nombre;
     }

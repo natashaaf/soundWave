@@ -2,6 +2,7 @@ import enums.CategoriaPodcast;
 import enums.GeneroMusical;
 import enums.TipoSuscripcion;
 import excepciones.contenido.ContenidoNoDisponibleException;
+import excepciones.contenido.LetraNoDisponibleException;
 import excepciones.contenido.TranscripcionNoDisponibleException;
 import modelo.artistas.Album;
 import modelo.artistas.Artista;
