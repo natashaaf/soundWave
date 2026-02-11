@@ -19,7 +19,7 @@ public class Creador {
     private ArrayList<Podcast> episodios;
     private int suscriptores;
     private String descripcion;
-    private HashMap<String, String> redeSociales;
+    private HashMap<String, String> redesSociales;
     private ArrayList<CategoriaPodcast>categoriaPrincipales;
     private static final int Max_Episodios = 500;
 
@@ -28,6 +28,9 @@ public class Creador {
         this.nombreCanal = nombreCanal;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.episodios = new ArrayList<>();
+        this.redesSociales = new HashMap<>();
+        this.categoriaPrincipales = new ArrayList<>();
     }
 
     public Creador (String nombreCanal, String nombre){
@@ -73,11 +76,11 @@ public class Creador {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;}
 
-    public HashMap<String, String> getRedeSociales() {
-        return redeSociales;}
+    public HashMap<String, String> getRedesSociales() {
+        return redesSociales;}
 
-    public void setRedeSociales(HashMap<String, String> redeSociales) {
-        this.redeSociales = redeSociales;}
+    public void setRedesSociales(HashMap<String, String> redesSociales) {
+        this.redesSociales = redesSociales;}
 
     public ArrayList<CategoriaPodcast> getCategoriaPrincipales() {
         return categoriaPrincipales;}
@@ -103,11 +106,11 @@ public class Creador {
     }
     public EstadisticasCreador obtenerEstadisticas(){
         // Retornamos una nueva instancia de la clase de utilidades pasando este creador (this)
-        return new EstadisticasCreador();
+        return new EstadisticasCreador(this);
     }
     public void agregarRedSocial(String red, String usuario){
         // El HashMap se encarga de añadir o actualizar si la red ya existía
-        this.redeSociales.put(red, usuario);
+        this.redesSociales.put(red, usuario);
 
     }
     public double calcularPromedioReproducciones() {
@@ -184,7 +187,7 @@ public class Creador {
                 ", episodios=" + episodios +
                 ", suscriptores=" + suscriptores +
                 ", descripcion='" + descripcion + '\'' +
-                ", redeSociales=" + redeSociales +
+                ", redesSociales=" + redesSociales +
                 ", categoriaPrincipales=" + categoriaPrincipales +
                 '}';
     }

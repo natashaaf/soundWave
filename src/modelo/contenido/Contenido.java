@@ -139,6 +139,9 @@ public abstract class Contenido {
         return String.format("Duración: ", minutos, segundos);
     }
 
+    // Método abstracto para obtener género/categoría del contenido
+    public abstract String getGenero();
+
     //Overrides
     @Override
     public String toString() {
