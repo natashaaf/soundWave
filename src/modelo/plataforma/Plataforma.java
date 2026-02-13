@@ -152,7 +152,17 @@ public class Plataforma {
      */
     public UsuarioPremium registrarUsuarioPremium(String nombre, String email, String password)
             throws UsuarioYaExisteException, EmailInvalidoException, PasswordDebilException {
-        return registrarUsuarioPremium(nombre, email, password, TipoSuscripcion.PREMIUM);
+         // verificar si existe usuario
+        if(usuariosPorEmail.containsKey(email)){
+            throw new UsuarioYaExisteException("Usuario ya existe. ");
+        }
+        // crear usuario
+        UsuarioPremium usuarioPremium = new UsuarioPremium(nombre,email, password);
+
+        // Añadir a la lista de usuario
+        usuariosPorEmail.put(email,usuarioPremium);
+        return usuarioPremium;
+
     }
 
     /**

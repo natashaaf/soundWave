@@ -161,8 +161,9 @@ public abstract class Usuario {
     }
 
     public boolean validarEmail() throws EmailInvalidoException {
-        if (this.email == null || !this.email.contains("@")) {
-            throw new EmailInvalidoException("Email no válido: " + this.email);
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        if (email == null || email.isEmpty()  || !email.matches(regex)) {
+            throw new EmailInvalidoException();
         }
         return true;
     }
