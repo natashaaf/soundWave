@@ -86,13 +86,9 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         this.album = album;
     }
 
-    public GeneroMusical getGeneroMusical() {
-        return genero;
-    }
-
     @Override
-    public String getGenero() {
-        return this.genero.toString();
+    public GeneroMusical getGenero() {
+        return this.genero;
     }
 
     public void setGenero(GeneroMusical genero) {

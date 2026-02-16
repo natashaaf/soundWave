@@ -68,10 +68,10 @@ public class RecomendadorIA implements Recomendador {
     public ArrayList<Contenido> obtenerSimilares(Contenido contenido) throws RecomendacionException {
         ArrayList<Contenido> similares = new ArrayList<>();
         // El método getGenero() ahora es visible porque está en la clase Contenido
-        String generoReferencia = contenido.getGenero();
+        String generoReferencia = contenido.getGenero().toString();
 
         for (Contenido c : catalogoReferencia) {
-            if (!c.equals(contenido) && c.getGenero().equalsIgnoreCase(generoReferencia)) {
+            if (!c.equals(contenido) && c.getGenero().equals(generoReferencia)) {
                 similares.add(c);
             }
         }
@@ -106,7 +106,7 @@ public class RecomendadorIA implements Recomendador {
     public void actualizarPreferencias(Usuario usuario) {
         ArrayList<String> generosVistos = new ArrayList<>();
         for (Contenido c : usuario.getHistorial()) {
-            String g = c.getGenero();
+            String g = c.getGenero().toString();
             if (!generosVistos.contains(g)) {
                 generosVistos.add(g);
             }

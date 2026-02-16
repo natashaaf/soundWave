@@ -452,7 +452,7 @@ public class Plataforma {
     public ArrayList<Cancion> buscarPorGenero(GeneroMusical genero) throws ContenidoNoEncontradoException {
         ArrayList<Cancion> resultados = new ArrayList<>();
         for (Contenido c : catalogo) {
-            if (c instanceof Cancion && ((Cancion) c).getGenero().equals(genero.toString())) {
+            if (c instanceof Cancion && ((Cancion) c).getGenero().equals(genero)) {
                 resultados.add((Cancion) c);
             }
         }
@@ -575,7 +575,7 @@ public class Plataforma {
         // Género más popular
         HashMap<GeneroMusical, Integer> generoCount = new HashMap<>();
         for (Cancion c : getCanciones()) {
-            GeneroMusical g = GeneroMusical.valueOf(c.getGenero());
+            GeneroMusical g = (GeneroMusical) c.getGenero();
             generoCount.put(g, generoCount.getOrDefault(g, 0) + c.getReproducciones());
         }
         GeneroMusical generoTop = null;

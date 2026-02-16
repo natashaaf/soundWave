@@ -4,6 +4,7 @@ import excepciones.contenido.DuracionInvalidaException;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Contenido {
@@ -140,7 +141,7 @@ public abstract class Contenido {
     }
 
     // Método abstracto para obtener género/categoría del contenido
-    public abstract String getGenero();
+    public abstract Object getGenero();
 
     //Overrides
     @Override
