@@ -74,7 +74,7 @@ public class Playlist {
             // Ordena los contenidos de menor a mayor duración en segundos
             case DURACION -> contenidos.sort(Comparator.comparingInt(Contenido::getDuracionSegundos));
             // Ordena los contenidos basándose en el número de reproducciones acumuladas
-            case POPULARIDAD -> contenidos.sort(Comparator.comparingInt(Contenido::getReproducciones));
+            case POPULARIDAD -> contenidos.sort(Comparator.comparingInt(Contenido::getReproducciones).reversed());
         }
     }
 
