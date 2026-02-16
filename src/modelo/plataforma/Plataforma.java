@@ -162,9 +162,7 @@ public class Plataforma {
         // Añadir a la lista de usuario
         usuariosPorEmail.put(email,usuarioPremium);
         return usuarioPremium;
-
     }
-
     /**
      * Registra un nuevo usuario Gratuito.
      */
@@ -249,7 +247,7 @@ public class Plataforma {
     public ArrayList<Artista> getArtistasVerificados() {
         ArrayList<Artista> lista = new ArrayList<>();
         for (Artista a : artistas.values()) {
-            if (a.isVerificado()) {
+            if (a.esVerificado()) {
                 lista.add(a);
             }
         }

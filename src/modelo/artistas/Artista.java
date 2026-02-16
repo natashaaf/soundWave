@@ -3,11 +3,11 @@ package modelo.artistas;
 import excepciones.artista.AlbumYaExisteException;
 import excepciones.artista.ArtistaNoVerificadoException;
 import modelo.contenido.Cancion;
-import modelo.contenido.Contenido;
+import java.util.Objects;
+import java.util.UUID;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
+import java.util.*;
 
 public class Artista {
     // Atributos
@@ -32,6 +32,7 @@ public class Artista {
         this.biografia = biografia;
         this.discografia = new ArrayList<>();
         this.albumes = new ArrayList<>();
+        this.id = UUID.randomUUID().toString();
     }
 
     // Constructores básicos
@@ -68,13 +69,13 @@ public class Artista {
         return this.discografia;}
 
     public void setDiscografia(List<Cancion> discografia) {
-        this.discografia = new ArrayList<>();}
+        this.discografia = new ArrayList<>(discografia);}
 
     public ArrayList<Album> getAlbumes() {
         return this.albumes;}
 
     public void setAlbumes(List<Album> albumes) {
-        this.albumes = new ArrayList<>();}
+        this.albumes = new ArrayList<>(albumes);}
 
     public int getOyentesMensuales() {
         return oyentesMensuales;}
@@ -178,12 +179,12 @@ public class Artista {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Artista artista = (Artista) obj;
-        return id.equals(artista.id);
+        return Objects.equals(id, artista.id);
     }
 
     @Override
     public int hashCode(){
-        return id.hashCode();
+        return Objects.hashCode(id);
     }
 
 }

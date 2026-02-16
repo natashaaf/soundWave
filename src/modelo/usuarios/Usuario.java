@@ -161,7 +161,7 @@ public abstract class Usuario {
     }
 
     public boolean validarEmail() throws EmailInvalidoException {
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         if (email == null || email.isEmpty()  || !email.matches(regex)) {
             throw new EmailInvalidoException();
         }
@@ -202,11 +202,11 @@ public abstract class Usuario {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Usuario usuario)) return false;
-        return Objects.equals(id, usuario.id) || Objects.equals(email, usuario.email);
+        return Objects.equals(id, usuario.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email);
+        return Objects.hash(id);
     }
 }

@@ -5,10 +5,8 @@ import excepciones.artista.LimiteEpisodiosException;
 import excepciones.contenido.EpisodioNoEncontradoException;
 import modelo.contenido.Podcast;
 import utilidades.EstadisticasCreador;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.UUID;
+import java.util.*;
 
 public class Creador {
 
@@ -25,9 +23,11 @@ public class Creador {
 
     // Constructores
     public Creador(String nombreCanal, String nombre, String descripcion) {
+        this.id = UUID.randomUUID().toString();
         this.nombreCanal = nombreCanal;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.suscriptores = 0;
         this.episodios = new ArrayList<>();
         this.redesSociales = new HashMap<>();
         this.categoriaPrincipales = new ArrayList<>();
@@ -197,12 +197,12 @@ public class Creador {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Creador creador = (Creador) obj;
-        return id.equals(creador.id);
+        return Objects.equals(id, creador.id);
     }
 
     @Override
     public int hashCode(){
-        return id.hashCode();
+        return Objects.hashCode(id);
     }
 
 }

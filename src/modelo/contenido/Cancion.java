@@ -92,7 +92,7 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
 
     @Override
     public String getGenero() {
-        return genero != null ? genero.getNombre() : "";
+        return this.genero.toString();
     }
 
     public void setGenero(GeneroMusical genero) {
@@ -252,5 +252,6 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
                 "duración:" + getDuracionSegundos() +
                 '}';
     }
+
 }
 

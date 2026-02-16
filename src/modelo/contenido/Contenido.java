@@ -136,7 +136,7 @@ public abstract class Contenido {
     public String getDuracionFormateada(){
         int minutos = this.duracionSegundos / 60;
         int segundos = this.duracionSegundos % 60;
-        return String.format("Duración: ", minutos, segundos);
+        return String.format("Duración: %02d:%02d", minutos, segundos);
     }
 
     // Método abstracto para obtener género/categoría del contenido

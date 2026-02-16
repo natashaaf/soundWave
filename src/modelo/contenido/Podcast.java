@@ -87,7 +87,8 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
 
     @Override
     public String getGenero() {
-        return categoria != null ? categoria.getNombre() : "";
+
+        return this.categoria.toString();
     }
 
     public void setCategoria(CategoriaPodcast categoria) {

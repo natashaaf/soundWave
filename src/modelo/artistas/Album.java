@@ -4,8 +4,7 @@ import excepciones.artista.AlbumCompletoException;
 import excepciones.contenido.DuracionInvalidaException;
 import excepciones.playlist.CancionNoEncontradaException;
 import modelo.contenido.Cancion;
-import modelo.contenido.Contenido;
-
+import java.util.UUID;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -26,11 +25,13 @@ public class Album {
 
     // Constructores
     public Album(String titulo, Artista artista, Date fechaLanzamiento, String discografica, String tipoAlbum) {
+        this.id = UUID.randomUUID().toString();
         this.titulo = titulo;
         this.fechaLanzamiento = fechaLanzamiento;
         this.artista = artista;
         this.discografica = discografica;
         this.tipoAlbum = tipoAlbum;
+        this.canciones = new ArrayList<>();
 
     }
 
@@ -95,7 +96,7 @@ public class Album {
 
     // Métodos (composición / creación)
     public Cancion crearCancion(String titulo, int duracionSegundos, GeneroMusical genero) throws AlbumCompletoException, DuracionInvalidaException {
-        return crearCancion(titulo, duracionSegundos, genero);
+        return crearCancion(titulo, duracionSegundos, genero, null, false);
     }
 
     public Cancion crearCancion(String titulo, int duracionSegundos, GeneroMusical genero, String letra, boolean explicit) throws AlbumCompletoException, DuracionInvalidaException {

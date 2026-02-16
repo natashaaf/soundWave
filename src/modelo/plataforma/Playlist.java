@@ -6,6 +6,7 @@ import excepciones.playlist.PlaylistVaciaException;
 import modelo.contenido.Cancion;
 import modelo.contenido.Contenido;
 import modelo.usuarios.Usuario;
+import java.util.UUID;
 
 import java.security.PublicKey;
 import java.time.LocalDateTime;
@@ -28,10 +29,15 @@ public class Playlist {
 
     // Constructores
     public Playlist(String nombre, Usuario creador, boolean esPublica, String descripcion) {
+        this.id = UUID.randomUUID().toString();
         this.nombre = nombre;
         this.creador = creador;
         this.esPublica = esPublica;
         this.descripcion = descripcion;
+        this.contenidos = new ArrayList<>();
+        this.seguidores = 0;
+        this.fechaCreacion = new Date();
+        this.maxContenidos = MAX_CONTENIDOS_DEFAULT;
     }
 
     public Playlist(String nombre, Usuario creador){
