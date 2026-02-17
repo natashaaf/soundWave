@@ -1,6 +1,8 @@
 package utilidades;
 
 import enums.AlgoritmoRecomendacion;
+import excepciones.recomendacion.HistorialVacioException;
+import excepciones.recomendacion.ModeloNoEntrenadoException;
 import excepciones.recomendacion.RecomendacionException;
 import interfaces.Recomendador;
 import modelo.usuarios.Usuario;
@@ -42,10 +44,10 @@ public class RecomendadorIA implements Recomendador {
     @Override
     public ArrayList<Contenido> recomendar(Usuario usuario) throws RecomendacionException {
         if (!modeloEntrenado) {
-            throw new RecomendacionException("El modelo de IA no ha sido entrenado.");
+            throw new ModeloNoEntrenadoException ("El modelo de IA no ha sido entrenado.");
         }
         if (usuario.getHistorial().isEmpty()) {
-            throw new RecomendacionException("El usuario no tiene historial suficiente para recomendar.");
+            throw new HistorialVacioException("El usuario no tiene historial suficiente para recomendar.");
         }
 
         ArrayList<Contenido> recomendaciones = new ArrayList<>();
