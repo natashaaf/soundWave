@@ -5,6 +5,8 @@ import modelo.contenido.Podcast;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * Clase encargada de procesar y gestionar las métricas de un creador de contenido.
  * Implementada según la sección 8.2 de la documentación técnica.
@@ -89,7 +91,10 @@ public class EstadisticasCreador {
         sb.append("Episodios Por Temporada: ").append(episodiosPorTemporada).append("\n");
         sb.append("Engagement: ").append(String.format("%.2f", calcularEngagement())).append("%\n");
         sb.append("Crecimiento Mensual Estimado: ").append(estimarCrecimientoMensual()).append("\n");
+        sb.append("Nombre del canal: ").append(creador.getNombreCanal().toUpperCase());
         return sb.toString();
+
+
     }
 
     public double calcularEngagement() {

@@ -77,7 +77,7 @@ public class Creador {
         this.descripcion = descripcion;}
 
     public HashMap<String, String> getRedesSociales() {
-        return redesSociales;}
+        return new HashMap<>(this.redesSociales);}
 
     public void setRedesSociales(HashMap<String, String> redesSociales) {
         this.redesSociales = redesSociales;}
@@ -108,9 +108,9 @@ public class Creador {
         // Retornamos una nueva instancia de la clase de utilidades pasando este creador (this)
         return new EstadisticasCreador(this);
     }
-    public void agregarRedSocial(String red, String usuario){
+    public void agregarRedSocial(String plataforma, String usuario){
         // El HashMap se encarga de añadir o actualizar si la red ya existía
-        this.redesSociales.put(red, usuario);
+        this.redesSociales.put(plataforma.toLowerCase(), usuario);
 
     }
     public double calcularPromedioReproducciones() {
