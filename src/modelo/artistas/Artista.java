@@ -129,8 +129,8 @@ public class Artista {
             // Define el máximo posible para evitar errores de índice
         int limite = Math.min(cantidad, copia.size());
 
-            // Las mejores canciones
-        return (ArrayList<Cancion>) copia.subList(0, limite);
+            // Crea una nueva lista con las mejores canciones
+        return new ArrayList<> (copia.subList(0, limite));
     }
 
     public double calcularPromedioReproducciones(){
