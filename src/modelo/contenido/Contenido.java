@@ -133,6 +133,7 @@ public abstract class Contenido {
     }
     public void marcarNoDisponible(){
         this.disponible = false;
+
     }
     public String getDuracionFormateada(){
         int minutos = this.duracionSegundos / 60;

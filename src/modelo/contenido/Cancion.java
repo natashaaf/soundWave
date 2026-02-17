@@ -151,6 +151,8 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         if(isDisponible()){
             this.reproduciendo = true;
             this.reproducciones++;
+        } else{
+            throw new ContenidoNoDisponibleException("Contenido no disponible.");
         }
     }
 
