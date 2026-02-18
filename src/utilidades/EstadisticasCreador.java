@@ -3,9 +3,6 @@ package utilidades;
 import modelo.artistas.Creador;
 import modelo.contenido.Podcast;
 import java.util.HashMap;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Clase encargada de procesar y gestionar las métricas de un creador de contenido.

@@ -4,7 +4,6 @@ import excepciones.contenido.DuracionInvalidaException;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Contenido {

@@ -44,4 +44,3 @@ jobs:
             --class-path out/production:out/test \
             --scan-class-path \
             --fail-if-no-tests
-

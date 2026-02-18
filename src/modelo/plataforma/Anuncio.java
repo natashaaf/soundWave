@@ -1,7 +1,6 @@
 package modelo.plataforma;
 
 import enums.TipoAnuncio;
-import modelo.contenido.Contenido;
 
 public class Anuncio {
 

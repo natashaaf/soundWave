@@ -11,7 +11,6 @@ import interfaces.Reproducible;
 import modelo.artistas.Creador;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Podcast extends Contenido implements Reproducible, Descargable {
 

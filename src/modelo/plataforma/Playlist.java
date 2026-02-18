@@ -3,13 +3,10 @@ import enums.CriterioOrden;
 import excepciones.playlist.ContenidoDuplicadoException;
 import excepciones.playlist.PlaylistLlenaException;
 import excepciones.playlist.PlaylistVaciaException;
-import modelo.contenido.Cancion;
 import modelo.contenido.Contenido;
 import modelo.usuarios.Usuario;
 import java.util.UUID;
 
-import java.security.PublicKey;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class Playlist {
