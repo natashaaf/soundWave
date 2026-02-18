@@ -275,9 +275,7 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         }
     }
 
-    /**
-     * Genera un código de identificación musical único basado en UUID.
-     */
+    /** Genera un ID basado en UUID. */
     private String generarISRC() {
         return "ISRC: " + UUID.randomUUID().toString().substring(0,8).toUpperCase();
     }
