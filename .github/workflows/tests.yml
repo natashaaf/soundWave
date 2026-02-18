@@ -31,8 +31,7 @@ jobs:
 
       - name: Compile source code
         run: |
-          find src -name "*.java" > sources.txt
-          javac -d out/production @sources.txt
+          mvn test
 
       - name: Compile test code
         run: |
@@ -45,3 +44,4 @@ jobs:
             --class-path out/production:out/test \
             --scan-class-path \
             --fail-if-no-tests
+
