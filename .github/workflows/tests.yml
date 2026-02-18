@@ -2,7 +2,7 @@ name: Run JUnit Tests
 
 on:
   push:
-    branches: [main]
+    branches: [main, developer]
 
 jobs:
   test:
@@ -31,7 +31,8 @@ jobs:
 
       - name: Compile source code
         run: |
-          mvn test
+          find src -name "*.java" > sources.txt
+          javac -d out/production @sources.txt
 
       - name: Compile test code
         run: |
