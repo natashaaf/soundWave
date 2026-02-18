@@ -1,6 +1,7 @@
 package modelo.plataforma;
 
 import enums.TipoAnuncio;
+// Error en producción...
 
 /**
  * Gestiona los anuncios para usuarios con plan gratuito.
