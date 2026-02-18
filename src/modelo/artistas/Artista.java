@@ -7,6 +7,10 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.*;
 
+/**
+ * Representa el artista en la plataforma.
+ * Gestiona su información personal, discografía y sus álbumes.
+ */
 public class Artista {
 
     // Atributos
@@ -22,7 +26,9 @@ public class Artista {
 
     // Constructores
 
-        // Constructores con datos de verificación y biografia.
+    /**
+     * Constructor detallado para artistas con biografía y estado de verificación inicial.
+     */
     public Artista(String nombreArtistico, String nombreReal, String paisOrigen, boolean verificado, String biografia){
         this.nombreArtistico = nombreArtistico;
         this.nombreReal = nombreReal;
@@ -34,50 +40,99 @@ public class Artista {
         this.id = UUID.randomUUID().toString();
     }
 
-        // Constructores básicos
+    /** * Constructor básico para artistas nuevos. */
     public Artista(String nombreArtistico, String nombreReal, String paisOrigen) {
         this(nombreArtistico, nombreReal, paisOrigen, false, null);
     }
 
-        // Getters and setters
-    public String getId() { return id;}
+    // Getters and setters
 
-    public void setId(String id) { this.id = id;}
+    /** Obtiene el ID del artista. */
+    public String getId() {
+        return id;
+    }
 
-    public String getNombreArtistico() { return nombreArtistico;}
+    /** Asigna un ID único al artista. */
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public void setNombreArtistico(String nombreArtistico) { this.nombreArtistico = nombreArtistico;}
+    /** Devuelve el nombre artístico del artista. */
+    public String getNombreArtistico() {
+        return nombreArtistico;
+    }
 
-    public String getNombreReal() { return nombreReal;}
+    public void setNombreArtistico(String nombreArtistico) {
+        this.nombreArtistico = nombreArtistico;
+    }
 
-    public void setNombreReal(String nombreReal) { this.nombreReal = nombreReal;}
+    /** Devuelve el nombre real de la persona. */
+    public String getNombreReal() {
+        return nombreReal;
+    }
 
-    public String getPaisOrigen() { return paisOrigen;}
+    public void setNombreReal(String nombreReal) {
+        this.nombreReal = nombreReal;
+    }
 
-    public void setPaisOrigen(String paisOrigen) { this.paisOrigen = paisOrigen;}
+    public String getPaisOrigen() {
+        return paisOrigen;
+    }
 
-    public ArrayList<Cancion> getDiscografia() { return this.discografia;}
+
+    public void setPaisOrigen(String paisOrigen) {
+        this.paisOrigen = paisOrigen;
+    }
+
+    /** Obtiene la lista de todas las canciones lanzadas por el artista. */
+    public ArrayList<Cancion> getDiscografia() {
+        return this.discografia;
+    }
 
     public void setDiscografia(List<Cancion> discografia) {
-        this.discografia = new ArrayList<>(discografia);}
+        this.discografia = new ArrayList<>(discografia);
+    }
 
-    public ArrayList<Album> getAlbumes() { return this.albumes;}
+    /** Devuelve la lista de álbumes publicados. */
+    public ArrayList<Album> getAlbumes() {
+        return this.albumes;
+    }
 
-    public void setAlbumes(List<Album> albumes) { this.albumes = new ArrayList<>(albumes);}
+    public void setAlbumes(List<Album> albumes) {
+        this.albumes = new ArrayList<>(albumes);
+    }
 
-    public int getOyentesMensuales() { return oyentesMensuales;}
+    public int getOyentesMensuales() {
+        return oyentesMensuales;
+    }
 
-    public void setOyentesMensuales(int oyentesMensuales) { this.oyentesMensuales = oyentesMensuales;}
 
-    public boolean isVerificado() { return verificado;}
+    public void setOyentesMensuales(int oyentesMensuales) {
+        this.oyentesMensuales = oyentesMensuales;
+    }
 
-    public void setVerificado() { this.verificado = true;}
+    /** Comprueba si el artista es verificado. */
+    public boolean isVerificado() {
+        return verificado;
+    }
 
-    public String getBiografia() { return biografia;}
+    public void setVerificado() {
+        this.verificado = true;
+    }
 
-    public void setBiografia(String biografia) { this.biografia = biografia;}
+    public String getBiografia() {
+        return biografia;
+    }
+
+    public void setBiografia(String biografia) {
+        this.biografia = biografia;
+    }
 
     // Métodos
+
+    /**
+     * Añade una canción individual a la lista de lanzamientos del artista.
+     */
     public void publicarCancion(Cancion cancion){
         if (cancion != null) {
             this.discografia.add(cancion);
@@ -87,45 +142,49 @@ public class Artista {
         }
     }
 
+    /**
+     * Crea un nuevo álbum si el artista está verificado y el título no se repite.
+     */
     public Album crearAlbum(String titulo, Date fecha) throws ArtistaNoVerificadoException, AlbumYaExisteException {
         if(!this.verificado){
-           throw new ArtistaNoVerificadoException("El artista debe estar verificado.");
+            throw new ArtistaNoVerificadoException("El artista debe estar verificado para crear álbumes.");
         }
         for (Album a : albumes){
             if(a.getTitulo().equalsIgnoreCase(titulo)){
-                throw new AlbumYaExisteException("Ya existe un album con el título: " + titulo);
+                throw new AlbumYaExisteException("Ya existe un álbum con el título: " + titulo);
             }
         }
-        Album nuevoAlbum = new Album (titulo, this,fecha);
+        Album nuevoAlbum = new Album(titulo, this, fecha);
         this.albumes.add(nuevoAlbum);
         return nuevoAlbum;
     }
 
+    /**
+     * Filtra las canciones del artista por reproducciones y devuelve un top.
+     */
     public ArrayList<Cancion> obtenerTopCanciones(int cantidad){
-
-            //copia de seguridad
         ArrayList<Cancion> copia = new ArrayList<>(this.discografia);
-
-            // Ordena de mayor a menor según reproducciones
         copia.sort((c1, c2) -> Integer.compare(c2.getReproducciones(), c1.getReproducciones()));
 
-            // Define el máximo posible para evitar errores de índice
         int limite = Math.min(cantidad, copia.size());
-
-            // Crea una nueva lista con las mejores canciones
-        return new ArrayList<> (copia.subList(0, limite));
+        return new ArrayList<>(copia.subList(0, limite));
     }
 
+    /**
+     * Calcula la media de reproducciones por cada canción en la discografía.
+     */
     public double calcularPromedioReproducciones(){
-        if (discografia.isEmpty()){
-            return 0;
-        }
-        return (double) getTotalReproducciones()/ discografia.size();
+        if (discografia.isEmpty()) return 0;
+        return (double) getTotalReproducciones() / discografia.size();
     }
 
-    public boolean esVerificado(){ return this.verificado;
+    public boolean esVerificado(){
+        return this.verificado;
     }
 
+    /**
+     * Suma las reproducciones de todos los álbumes del artista.
+     */
     public int getTotalReproducciones(){
         int total = 0;
         for (Album album : albumes){
@@ -133,9 +192,12 @@ public class Artista {
         }
         return total;
     }
-    public void verificar(){ this.verificado = true;
 
+    /** Atribuye el verificado al perfil del artista.*/
+    public void verificar(){
+        this.verificado = true;
     }
+
     public void incrementarOyentes(){
         oyentesMensuales++;
     }
@@ -144,18 +206,10 @@ public class Artista {
 
     @Override
     public String toString() {
-        return "Artista{" +
-                "id='" + id + '\'' +
-                ", nombreArtistico='" + nombreArtistico + '\'' +
-                ", nombreReal='" + nombreReal + '\'' +
-                ", paisOrigen='" + paisOrigen + '\'' +
-                ", discografia=" + discografia +
-                ", albumes=" + albumes +
-                ", oyentesMensuales=" + oyentesMensuales +
-                ", verificado=" + verificado +
-                ", biografia='" + biografia + '\'' +
-                '}';
+        return "Artista: " + nombreArtistico + (verificado ? " [Verificado]" : "");
     }
+
+    @Override
     public boolean equals(Object obj){
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
@@ -167,5 +221,4 @@ public class Artista {
     public int hashCode(){
         return Objects.hashCode(id);
     }
-
 }

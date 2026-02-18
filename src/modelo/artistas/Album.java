@@ -9,6 +9,10 @@ import java.util.UUID;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Representa un álbum musical que agrupa varias canciones.
+ * Controla el límite de pistas, la duración total y la relación con el artista.
+ */
 public class Album {
 
     // Atributos
@@ -25,6 +29,8 @@ public class Album {
     private static final int MAX_CANCIONES = 20;
 
     // Constructores
+
+    /** Crea un álbum con toda la información técnica y comercial. */
     public Album(String titulo, Artista artista, Date fechaLanzamiento, String discografica, String tipoAlbum) {
         this.id = UUID.randomUUID().toString();
         this.titulo = titulo;
@@ -33,88 +39,121 @@ public class Album {
         this.discografica = discografica;
         this.tipoAlbum = tipoAlbum;
         this.canciones = new ArrayList<>();
-
     }
 
+    /** Constructor simplificado para lanzamientos rápidos. */
     public Album(String titulo, Artista artista, Date fechaLanzamiento) {
         this(titulo, artista, fechaLanzamiento, null, null);
     }
 
     // Getters and setters
-    public String getId() { return id;}
 
-    public void setId(String id) { this.id = id;}
+    /** Obtiene el ID del álbum. */
+    public String getId() {
+        return id; }
 
-    public String getTitulo() { return titulo;}
+    /** * Asigna un ID al álbum. */
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public void setTitulo(String titulo) { this.titulo = titulo;}
+    /** Devuelve el título del álbum. */
+    public String getTitulo() {
+        return titulo;
+    }
 
-    public Artista getArtista() { return artista;}
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-    public void setArtista(Artista artista) { this.artista = artista;}
+    /** Obtiene el objeto Artista dueño de este álbum. */
+    public Artista getArtista() {
+        return artista;
+    }
 
-    public Date getFechaLanzamiento() { return fechaLanzamiento;}
+    /** Vincula un artista con el álbum. */
+    public void setArtista(Artista artista) {
+        this.artista = artista;
+    }
 
-    public void setFechaLanzamiento(Date fechaLanzamiento) { this.fechaLanzamiento = fechaLanzamiento;}
+    public Date getFechaLanzamiento() {
+        return fechaLanzamiento; }
 
-    public ArrayList<Cancion> getCanciones() { return canciones;}
+    public void setFechaLanzamiento(Date fechaLanzamiento) {
+        this.fechaLanzamiento = fechaLanzamiento; }
 
-    public void setCanciones(ArrayList<Cancion> canciones) { this.canciones = canciones;}
+    public ArrayList<Cancion> getCanciones() {
+        return canciones; }
 
-    public String getPortadaURL() { return portadaURL;}
+    /** Reemplaza todas las canciones del álbum por una nueva lista.*/
+    public void setCanciones(ArrayList<Cancion> canciones) {
+        this.canciones = canciones;
+    }
 
-    public void setPortadaURL(String portadaURL) { this.portadaURL = portadaURL;}
+    public String getPortadaURL() {
+        return portadaURL;
+    }
 
-    public String getDiscografica() { return discografica;}
+    public void setPortadaURL(String portadaURL) {
+        this.portadaURL = portadaURL;
+    }
 
-    public void setDiscografica(String discografica) { this.discografica = discografica;}
+    public String getDiscografica() {
+        return discografica; }
 
-    public String getTipoAlbum() { return tipoAlbum;}
+    public void setDiscografica(String discografica) {
+        this.discografica = discografica;
+    }
 
-    public void setTipoAlbum(String tipoAlbum) { this.tipoAlbum = tipoAlbum;}
+    public String getTipoAlbum() {
+        return tipoAlbum;
+    }
 
-    public static int getMaxCanciones() { return MAX_CANCIONES;}
+    public void setTipoAlbum(String tipoAlbum) {
+        this.tipoAlbum = tipoAlbum;
+    }
+
+    /** Devuelve el límite máximo de canciones permitidas por álbum. */
+    public static int getMaxCanciones() {
+        return MAX_CANCIONES;
+    }
 
     // Métodos
 
-    // Métodos (composición / creación)
+    /**
+     * Crea una nueva canción y la añade directamente al álbum (Composición).
+     * Verifica que no se superen las 20 canciones permitidas.
+     */
     public Cancion crearCancion(String titulo, int duracionSegundos, GeneroMusical genero) throws AlbumCompletoException, DuracionInvalidaException {
         return crearCancion(titulo, duracionSegundos, genero, null, false);
     }
 
     public Cancion crearCancion(String titulo, int duracionSegundos, GeneroMusical genero, String letra, boolean explicit) throws AlbumCompletoException, DuracionInvalidaException {
-        // Validar si el álbum tiene espacio (Composición)
         if (this.canciones.size() >= MAX_CANCIONES) {
-            throw new AlbumCompletoException("El álbum " + this.titulo + "ya alcanzó el límite de " + MAX_CANCIONES + "canciones.");
+            throw new AlbumCompletoException("Límite alcanzado: El álbum ya tiene " + MAX_CANCIONES + " canciones.");
         }
 
-        // Crea la instancia de Cancion
         Cancion nuevaCancion = new Cancion(titulo, duracionSegundos, this.artista, genero, letra, explicit);
-        nuevaCancion.setAlbum(this);
-
+        nuevaCancion.setAlbum(this); // Vinculación bidireccional
         this.canciones.add(nuevaCancion);
         return nuevaCancion;
     }
 
-    // Métodos (gestión)
-
-        //Eliminar por posición
+    /**
+     * Borra una canción usando su posición en el tracklist (empezando en 1).
+     */
     public void eliminarCancion(int posicion) throws CancionNoEncontradaException {
         if (posicion < 1 || posicion > canciones.size()) {
-            throw new CancionNoEncontradaException("Canción no encontrada.");
+            throw new CancionNoEncontradaException("La posición " + posicion + " no existe.");
         }
         this.canciones.remove(posicion - 1);
     }
 
-        // Eliminar por referencia de objeto
-    public void eliminarCancion(Cancion cancion) throws CancionNoEncontradaException {
-        if (!this.canciones.remove(cancion)) {
-            throw new CancionNoEncontradaException("La canción no existe en este álbum.");
-        }
-        cancion.setAlbum(null); // Limpiamos la relación
-    }
+    public void eliminarCancion(Cancion cancion) throws CancionNoEncontradaException {}
 
-        // Suma de duraciones en segundos
+    /**
+     * Suma la duración de todas las canciones en segundos.
+     **/
     public int getDuracionTotal() {
         int total = 0;
         for (Cancion c : canciones) {
@@ -123,6 +162,9 @@ public class Album {
         return total;
     }
 
+    /**
+     * Devuelve la duración total formateada (HH:MM:SS o MM:SS).
+     */
     public String getDuracionTotalFormateada() {
         int segundosTotales = getDuracionTotal();
         int horas = segundosTotales / 3600;
@@ -136,26 +178,31 @@ public class Album {
         }
     }
 
-        // Tamaño de la lista
+    /** Indica cuántas canciones hay registradas en el álbum actualmente. */
     public int getNumCanciones() {
         return canciones.size();
     }
 
-        // Ordena por popularidad
+    /**
+     * Reordena la lista de canciones poniendo las más escuchadas primero.
+     */
     public void ordenarPorPopularidad() {
-        // (c2, c1) en lugar de (c1, c2) hace que el orden sea DESCENDENTE
         this.canciones.sort((c1, c2) -> Integer.compare(c2.getReproducciones(), c1.getReproducciones()));
     }
 
-        // Obtener por posición (1-based)
+    /**
+     * Obtiene una canción específica mediante su índice en el álbum (1-based).
+     */
     public Cancion getCancion(int posicion) throws CancionNoEncontradaException {
         if (posicion < 1 || posicion > canciones.size()) {
-            throw new CancionNoEncontradaException("Posición inválida: " + posicion);
+            throw new CancionNoEncontradaException("Índice inválido.");
         }
         return canciones.get(posicion - 1);
     }
 
-        // Suma de todas las reproducciones
+    /**
+     * Suma el contador de reproducciones de todas las pistas del álbum.
+     */
     public int getTotalReproducciones() {
         int total = 0;
         for (Cancion c : canciones) {
@@ -168,16 +215,7 @@ public class Album {
 
     @Override
     public String toString() {
-        return "Album{" +
-                "id='" + id + '\'' +
-                ", titulo='" + titulo + '\'' +
-                ", artista=" + artista +
-                ", fechaLanzamiento=" + fechaLanzamiento +
-                ", canciones=" + canciones +
-                ", portadaURL='" + portadaURL + '\'' +
-                ", discografica='" + discografica + '\'' +
-                ", tipoAlbum='" + tipoAlbum + '\'' +
-                '}';
+        return "Álbum: " + titulo + " (" + (artista != null ? artista.getNombreArtistico() : "Varios") + ")";
     }
 
     @Override
@@ -185,18 +223,11 @@ public class Album {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Album album = (Album) obj;
-        return id.equals(album.id);
+        return id != null && id.equals(album.id);
     }
 
     @Override
     public int hashCode(){
-        return id.hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }
-
-
-
-
-
-
-

@@ -97,9 +97,7 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
         this.categoria = categoria;
     }
 
-    /**
-     *  Devuelve una copia de la lista de invitados para proteger la original.
-     *  */
+    /** Devuelve una copia de la lista de invitados para proteger la original.*/
     public ArrayList<String> getInvitados() {
         return new ArrayList<>(this.invitados);
     }
@@ -239,7 +237,7 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
     }
 
     /**
-     * Valida que los números de episodio y temporada sean coherentes.
+     * Valida que los números de episodios y temporada sean coherentes.
      * */
     public void validarEpisodio() throws EpisodioNoEncontradoException {
         if (this.numeroEpisodio <= 0 || this.temporada < 1)

@@ -46,6 +46,63 @@ public class Playlist {
         this(nombre, creador, true, " ");
     }
 
+    // Getters and Setters
+
+    public ArrayList<Contenido> getContenidos() {
+        return new ArrayList<>(this.contenidos);
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /** Obtiene el usuario que creó la lista.*/
+    public Usuario getCreador() {
+        return creador;
+    }
+
+    /** Indica si la playlist es visible para otros usuarios.*/
+    public boolean isEsPublica() {
+        return esPublica;
+    }
+
+    public void setEsPublica(boolean esPublica) {
+        this.esPublica = esPublica;
+    }
+
+    /** Devuelve el número de personas que siguen esta lista.*/
+    public int getSeguidores() {
+        return seguidores;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getPortadaURL() {
+        return portadaURL;
+    }
+
+    public void setPortadaURL(String portadaURL) {
+        this.portadaURL = portadaURL;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public int getMaxContenidos() {
+        return maxContenidos;
+    }
+
     // Métodos
 
     /**
@@ -117,9 +174,7 @@ public class Playlist {
         this.esPublica = false;
     }
 
-    /**
-     * Suma un nuevo seguidor al contador de la playlist.
-     */
+    /** Suma un nuevo seguidor al contador de la playlist.*/
     public void incrementarSeguidores() {
         this.seguidores++;
     }
@@ -131,9 +186,7 @@ public class Playlist {
         if (this.seguidores > 0) this.seguidores--;
     }
 
-    /**
-     * Indica cuántos elementos hay guardados en total.
-     */
+    /** Indica cuántos elementos hay guardados en total.*/
     public int getNumContenidos() {
         return this.contenidos.size();
     }
@@ -150,67 +203,5 @@ public class Playlist {
         return contenidos.get(posicion);
     }
 
-    // Getters and Setters
-
-    public ArrayList<Contenido> getContenidos() {
-        return new ArrayList<>(this.contenidos);
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    /**
-     * Obtiene el usuario que creó la lista.
-     */
-    public Usuario getCreador() {
-        return creador;
-    }
-
-    /**
-     * Indica si la playlist es visible para otros usuarios.
-     */
-    public boolean isEsPublica() {
-        return esPublica;
-    }
-
-    public void setEsPublica(boolean esPublica) {
-        this.esPublica = esPublica;
-    }
-
-    /**
-     * Devuelve el número de personas que siguen esta lista.
-     */
-    public int getSeguidores() {
-        return seguidores;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getPortadaURL() {
-        return portadaURL;
-    }
-
-    public void setPortadaURL(String portadaURL) {
-        this.portadaURL = portadaURL;
-    }
-
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public int getMaxContenidos() {
-        return maxContenidos;
-    }
 
 }

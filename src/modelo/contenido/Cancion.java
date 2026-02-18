@@ -68,42 +68,30 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
 
     // Getters and setters
 
-    /**
-     * Obtiene la letra de la canción.
-     */
+    /** Obtiene la letra de la canción. */
     public String getLetra() {
         return letra;
     }
 
-    /**
-     * Permite asignar o cambiar la letra de la canción.
-     */
+    /** Permite asignar o cambiar la letra de la canción.*/
     public void setLetra(String letra) {
         this.letra = letra;
     }
 
-    /**
-     * Devuelve el objeto Artista que compuso la canción.
-     */
+    /** Devuelve el objeto Artista que compuso la canción. */
     public Artista getArtista() { return artista; }
 
-    /**
-     * Asigna un artista a la canción.
-     */
+    /** Asigna un artista a la canción.*/
     public void setArtista(Artista artista) {
         this.artista = artista;
     }
 
-    /**
-     * Obtiene el álbum al que pertenece esta canción.
-     */
+    /** Obtiene el álbum al que pertenece esta canción.*/
     public Album getAlbum() {
         return album;
     }
 
-    /**
-     * Asigna la canción a un álbum específico.
-     */
+    /** Asigna la canción a un álbum específico. */
     public void setAlbum(Album album) {
         this.album = album;
     }
@@ -112,7 +100,9 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
      * Devuelve el género musical de la canción.
      */
     @Override
-    public GeneroMusical getGenero() { return this.genero; }
+    public GeneroMusical getGenero() {
+        return this.genero;
+    }
 
     public void setGenero(GeneroMusical genero) {
         this.genero = genero;
@@ -126,14 +116,12 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         this.audioURL = audioURL;
     }
 
-    /**
-     *  Indica si la canción contiene lenguaje explícito.
-     */
-    public boolean isExplicit() { return explicit; }
+    /** Indica si la canción contiene lenguaje explícito.*/
+    public boolean isExplicit() {
+        return explicit;
+    }
 
-    /**
-     * Define si la canción debe marcarse como explícita o no.
-     */
+    /** Define si la canción debe marcarse como explícita o no. */
     public void setExplicit(boolean explicit) {
         this.explicit = explicit;
     }

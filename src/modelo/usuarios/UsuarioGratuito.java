@@ -98,9 +98,7 @@ public class UsuarioGratuito extends Usuario {
         }
     }
 
-    /**
-     * Comprueba si el usuario todavía no ha llegado al máximo de 50 canciones.
-     */
+    /** Comprueba si el usuario todavía no ha llegado al máximo de 50 canciones.*/
     public boolean puedeReproducir() {
         return this.reproduccionesHoy < this.limiteReproducciones;
     }
@@ -140,9 +138,7 @@ public class UsuarioGratuito extends Usuario {
         return ultimoAnuncio;
     }
 
-    /**
-     * Indica cuántas canciones lleva escuchadas en el día de hoy.
-     */
+    /** Indica cuántas canciones lleva escuchadas en el día de hoy.*/
     public int getReproduccionesHoy() {
         return reproduccionesHoy;
     }
@@ -155,9 +151,7 @@ public class UsuarioGratuito extends Usuario {
         return limiteReproducciones;
     }
 
-    /**
-     * Indica cuántas canciones lleva escuchadas desde el último anuncio.
-     */
+    /** Indica cuántas canciones lleva escuchadas desde el último anuncio.*/
     public int getCancionesSinAnuncio() {
         return cancionesSinAnuncio;
     }

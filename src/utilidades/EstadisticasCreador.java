@@ -32,23 +32,17 @@ public class EstadisticasCreador {
 
     // Getters and setters
 
-    /**
-     * Entrega el objeto del creador para consultar sus datos.
-     */
+    /** Entrega el objeto del creador para consultar sus datos.*/
     public Creador getCreador() {
         return creador;
     }
 
-    /**
-     * Devuelve la cantidad de episodios que ha subido el creador.
-     */
+    /** Devuelve la cantidad de episodios que ha subido el creador.*/
     public int getTotalEpisodios() {
         return totalEpisodios;
     }
 
-    /**
-     * Devuelve la suma de todas las visitas de todos sus podcasts.
-     */
+    /** Devuelve la suma de todas las visitas de todos sus podcasts.*/
     public int getTotalReproducciones() {
         return totalReproducciones;
     }
@@ -69,9 +63,7 @@ public class EstadisticasCreador {
         return duracionTotalSegundos;
     }
 
-    /**
-     * Devuelve el podcast que tiene el número más alto de reproducciones.
-     */
+    /** Devuelve el podcast que tiene el número más alto de reproducciones.*/
     public Podcast getEpisodioMasPopular() {
         return episodioMasPopular;
     }

@@ -44,23 +44,17 @@ public abstract class Contenido {
 
     // Getters and setters
 
-    /**
-     * Obtiene el identificador único del contenido.
-     */
+    /** Obtiene el identificador único del contenido. */
     public String getId() {
         return id;
     }
 
-    /**
-     * Asigna un identificador único al contenido.
-     */
+    /** Asigna un identificador único al contenido. */
     public void setId(String id) {
         this.id = id;
     }
 
-    /**
-     * Devuelve el título actual.
-     */
+    /** Devuelve el título actual.*/
     public String getTitulo() {
         return titulo;
     }
@@ -69,23 +63,17 @@ public abstract class Contenido {
         this.titulo = titulo;
     }
 
-    /**
-     * Indica cuántas veces se ha escuchado.
-     */
+    /** Indica cuántas veces se ha escuchado. */
     public int getReproducciones() {
         return reproducciones;
     }
 
-    /**
-     * Actualiza el número total de escuchas.
-     */
+    /** Actualiza el número total de escuchas. */
     public void setReproducciones(int reproducciones) {
         this.reproducciones = reproducciones;
     }
 
-    /**
-     * Devuelve el total de "Me gusta" acumulados.
-     */
+    /** Devuelve el total de "Me gusta" acumulados. */
     public int getLikes() {
         return likes;
     }
@@ -94,8 +82,7 @@ public abstract class Contenido {
         this.likes = likes;
     }
 
-    /**
-     * Entrega la duración total medida en segundos. */
+    /** Entrega la duración total medida en segundos. */
     public int getDuracionSegundos() {
         return this.duracionSegundos;
     }
@@ -104,9 +91,7 @@ public abstract class Contenido {
         this.duracionSegundos = duracionSegundos;
     }
 
-    /**
-     * Retorna la lista de tags asociadas al contenido.
-     * */
+    /** Retorna la lista de tags asociadas al contenido.*/
     public ArrayList<String> getTags() {
         return tags;
     }
@@ -115,9 +100,7 @@ public abstract class Contenido {
         this.tags = tags;
     }
 
-    /**
-     * Indica si el contenido está habilitado para los usuarios.
-     * */
+    /** Indica si el contenido está habilitado para los usuarios. */
     public boolean isDisponible() {
         return disponible; }
 
@@ -166,15 +149,11 @@ public abstract class Contenido {
     public boolean tieneTag(String tag) {
         return this.tags.contains(tag);
     }
-    /**
-     * Activa el contenido para que sea visible y reproducible.
-     */
+    /** Activa el contenido para que sea visible y reproducible.*/
     public void marcarDisponible() {
         this.disponible = true;
     }
-    /**
-     * Desactiva el contenido para que nadie pueda acceder a él.
-     */
+    /** Desactiva el contenido para que nadie pueda acceder a él.*/
     public void marcarNoDisponible() {
         this.disponible = false;
     }

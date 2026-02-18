@@ -44,16 +44,17 @@ public class Creador {
 
     // Getters and setters
 
-    /** * Devuelve el ID único del creador. */
+    /** Obtiene ID del creador.*/
     public String getId() {
         return id;
     }
 
+    /** Asigna un ID al creador.*/
     public void setId(String id) {
         this.id = id;
     }
 
-    /** * Obtiene el nombre público del canal de podcasts. */
+    /** Devuelve el nombre del canal de podcasts.*/
     public String getNombreCanal() {
         return nombreCanal;
     }
@@ -62,16 +63,17 @@ public class Creador {
         this.nombreCanal = nombreCanal;
     }
 
-    /** * Obtiene el nombre real o artístico del creador. */
+    /** Devuelve el nombre real o artístico de la persona. */
     public String getNombre() {
         return nombre;
     }
 
+    /** Modifica el nombre del creador. */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    /** * Devuelve la lista de todos los podcasts subidos por este creador. */
+    /** Obtiene la lista completa de episodios (Podcast) subidos.*/
     public ArrayList<Podcast> getEpisodios() {
         return episodios;
     }
@@ -80,11 +82,12 @@ public class Creador {
         this.episodios = episodios;
     }
 
-    /** * Indica cuántas personas están suscritas al canal. */
+    /** Indica cuántas personas están siguiendo el canal. */
     public int getSuscriptores() {
         return suscriptores;
     }
 
+    /** Actualiza el número de suscriptores del canal. */
     public void setSuscriptores(int suscriptores) {
         this.suscriptores = suscriptores;
     }
@@ -97,9 +100,7 @@ public class Creador {
         this.descripcion = descripcion;
     }
 
-    /**
-     * Entrega una copia de los enlaces a redes sociales (Instagram, Twitter, etc.).
-     */
+    /** Entrega una copia del mapa de redes sociales para mayor seguridad. */
     public HashMap<String, String> getRedesSociales() {
         return new HashMap<>(this.redesSociales);
     }
@@ -116,7 +117,7 @@ public class Creador {
         this.categoriaPrincipales = categoriaPrincipales;
     }
 
-    /** * Indica la cantidad de episodios publicados actualmente. */
+    /** Devuelve el total de episodios que tiene el creador actualmente. */
     public int getNumEpisodios(){
         return this.episodios.size();
     }
@@ -124,30 +125,31 @@ public class Creador {
     // Métodos
 
     /**
-     * Sube un nuevo podcast al canal. Verifica que no se pase del límite de 500 episodios.
+     * Publica un nuevo episodio.
+     * Vincula el podcast con este creador y verifica el límite de 500 episodios.
      */
     public void publicarPodcast(Podcast episodio) throws LimiteEpisodiosException {
         if (this.episodios.size() >= Max_Episodios){
-            throw new LimiteEpisodiosException("El creador ha alcanzado el límite máximo de " + Max_Episodios + " episodios.");
+            throw new LimiteEpisodiosException("Límite alcanzado: máximo " + Max_Episodios + " episodios.");
         }
-        // Vinculamos el episodio con este creador específico
         episodio.setCreador(this);
         this.episodios.add(episodio);
         System.out.println("Episodio " + episodio.getTitulo() + " publicado con éxito.");
     }
 
-    /** * Crea un objeto de estadísticas procesando todos los datos del creador. */
+    /** Llama a la utilidad de estadísticas para procesar los datos de este creador. */
     public EstadisticasCreador obtenerEstadisticas(){
         return new EstadisticasCreador(this);
     }
 
-    /** * Guarda o actualiza un perfil de red social en el mapa. */
+    /**
+     * Inserta una red social (ej: "Instagram", "usuario123") en el perfil. */
     public void agregarRedSocial(String plataforma, String usuario){
         this.redesSociales.put(plataforma.toLowerCase(), usuario);
     }
 
     /**
-     * Suma todas las visitas y las divide por el número de episodios.
+     * Calcula la media de escuchas dividiendo el total entre el número de episodios.
      */
     public double calcularPromedioReproducciones() {
         if (episodios.isEmpty()) return 0.0;
@@ -160,18 +162,18 @@ public class Creador {
     }
 
     /**
-     * Busca un episodio por su ID y lo borra de la lista.
+     * Borra un episodio de la lista usando su ID único.
      */
     public void eliminarEpisodio(String idEpisodio) throws EpisodioNoEncontradoException{
         boolean eliminado = episodios.removeIf(p -> p.getId().equals(idEpisodio));
 
         if (!eliminado) {
-            throw new EpisodioNoEncontradoException("No se encontró el episodio con ID: " + idEpisodio);
+            throw new EpisodioNoEncontradoException("ID de episodio no encontrado: " + idEpisodio);
         }
     }
 
     /**
-     * Suma las reproducciones de cada uno de los episodios del canal.
+     * Suma las reproducciones acumuladas de todos los podcasts publicados.
      */
     public int getTotalReproducciones(){
         int total = 0;
@@ -186,11 +188,10 @@ public class Creador {
     }
 
     /**
-     * Ordena los episodios por éxito y devuelve una lista con los mejores.
+     * Filtra y devuelve los episodios más escuchados según la cantidad solicitada.
      */
     public ArrayList<Podcast> obtenerTopEpisodios(int cantidad){
         ArrayList<Podcast> copiaEpisodios = new ArrayList<>(this.episodios);
-        // Ordenamos de mayor a menor según reproducciones
         copiaEpisodios.sort((p1, p2) -> Integer.compare(p2.getReproducciones(), p1.getReproducciones()));
 
         int limite = Math.min(cantidad, copiaEpisodios.size());
@@ -198,8 +199,8 @@ public class Creador {
     }
 
     /**
-     * Busca entre todos los episodios cuál es el número de temporada más alto.
-     */
+     * Recorre los episodios para encontrar el número de temporadas más alto registrado.
+     * */
     public int getUltimaTemporada(){
         if (episodios.isEmpty()) return 0;
 
@@ -216,7 +217,7 @@ public class Creador {
 
     @Override
     public String toString() {
-        return "Creador: " + nombreCanal + " (Canal de " + nombre + ")";
+        return "Canal: " + nombreCanal + " | Autor: " + nombre;
     }
 
     @Override

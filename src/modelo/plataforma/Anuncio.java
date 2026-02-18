@@ -105,16 +105,12 @@ public class Anuncio {
 
     public void registrarImpresion(){}
 
-    /**
-     * Consulta el precio de una sola reproducción según el tipo de anuncio.
-     * */
+    /** Consulta el precio de una sola reproducción según el tipo de anuncio. */
     public double calcularCostoPorImpresion() {
         return this.tipo.getCostoPorImpresion();
     }
 
-    /**
-     *  Multiplica las veces que sonó el anuncio por lo que cuesta cada una.
-     *  */
+    /** Multiplica las veces que sonó el anuncio por lo que cuesta cada una.*/
     public double calcularCostoTotal() {
         return this.impresiones * calcularCostoPorImpresion();
     }

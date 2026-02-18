@@ -60,9 +60,7 @@ public class UsuarioPremium extends Usuario {
         return new ArrayList<>(this.descargados);
     }
 
-    /**
-     * Indica cuántos elementos hay guardados actualmente en la lista de descargas.
-     */
+    /** Indica cuántos elementos hay guardados actualmente en la lista de descargas.*/
     public int getNumDescargados() {
         return this.descargados.size();
     }
