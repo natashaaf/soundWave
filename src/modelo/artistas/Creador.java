@@ -40,41 +40,29 @@ public class Creador {
     // Getters and setters
 
 
-    public String getId() {
-        return id;}
+    public String getId() { return id;}
 
-    public void setId(String id) {
-        this.id = id;}
+    public void setId(String id) { this.id = id;}
 
-    public String getNombreCanal() {
-        return nombreCanal;}
+    public String getNombreCanal() { return nombreCanal;}
 
-    public void setNombreCanal(String nombreCanal) {
-        this.nombreCanal = nombreCanal;}
+    public void setNombreCanal(String nombreCanal) { this.nombreCanal = nombreCanal;}
 
-    public String getNombre() {
-        return nombre;}
+    public String getNombre() { return nombre;}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;}
+    public void setNombre(String nombre) { this.nombre = nombre;}
 
-    public ArrayList<Podcast> getEpisodios() {
-        return episodios;}
+    public ArrayList<Podcast> getEpisodios() { return episodios;}
 
-    public void setEpisodios(ArrayList<Podcast> episodios) {
-        this.episodios = episodios;}
+    public void setEpisodios(ArrayList<Podcast> episodios) { this.episodios = episodios;}
 
-    public int getSuscriptores() {
-        return suscriptores;}
+    public int getSuscriptores() { return suscriptores;}
 
-    public void setSuscriptores(int suscriptores) {
-        this.suscriptores = suscriptores;}
+    public void setSuscriptores(int suscriptores) { this.suscriptores = suscriptores;}
 
-    public String getDescripcion() {
-        return descripcion;}
+    public String getDescripcion() { return descripcion;}
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;}
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion;}
 
     public HashMap<String, String> getRedesSociales() {
         return new HashMap<>(this.redesSociales);}
@@ -125,7 +113,7 @@ public class Creador {
         return sumaTotal / episodios.size();
     }
     public void eliminarEpisodio(String idEpisodio) throws EpisodioNoEncontradoException{
-        // Usamos un iterador o removeIf para evitar problemas de concurrencia al borrar
+        // Usamos un removeIf para evitar problemas de concurrencia al borrar
         boolean eliminado = episodios.removeIf(p -> p.getId().equals(idEpisodio));
 
         if (!eliminado) {
@@ -176,7 +164,6 @@ public class Creador {
     }
 
     // Overrides
-
 
     @Override
     public String toString() {

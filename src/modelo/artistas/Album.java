@@ -41,57 +41,39 @@ public class Album {
     }
 
     // Getters and setters
+    public String getId() { return id;}
 
-    public String getId() {
-        return id;}
+    public void setId(String id) { this.id = id;}
 
-    public void setId(String id) {
-        this.id = id;}
+    public String getTitulo() { return titulo;}
 
-    public String getTitulo() {
-        return titulo;}
+    public void setTitulo(String titulo) { this.titulo = titulo;}
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;}
+    public Artista getArtista() { return artista;}
 
-    public Artista getArtista() {
-        return artista;}
+    public void setArtista(Artista artista) { this.artista = artista;}
 
-    public void setArtista(Artista artista) {
-        this.artista = artista;}
+    public Date getFechaLanzamiento() { return fechaLanzamiento;}
 
-    public Date getFechaLanzamiento() {
-        return fechaLanzamiento;}
+    public void setFechaLanzamiento(Date fechaLanzamiento) { this.fechaLanzamiento = fechaLanzamiento;}
 
-    public void setFechaLanzamiento(Date fechaLanzamiento) {
-        this.fechaLanzamiento = fechaLanzamiento;}
+    public ArrayList<Cancion> getCanciones() { return canciones;}
 
-    public ArrayList<Cancion> getCanciones() {
-        return canciones;}
+    public void setCanciones(ArrayList<Cancion> canciones) { this.canciones = canciones;}
 
-    public void setCanciones(ArrayList<Cancion> canciones) {
-        this.canciones = canciones;}
+    public String getPortadaURL() { return portadaURL;}
 
-    public String getPortadaURL() {
-        return portadaURL;}
+    public void setPortadaURL(String portadaURL) { this.portadaURL = portadaURL;}
 
-    public void setPortadaURL(String portadaURL) {
-        this.portadaURL = portadaURL;}
+    public String getDiscografica() { return discografica;}
 
-    public String getDiscografica() {
-        return discografica;}
+    public void setDiscografica(String discografica) { this.discografica = discografica;}
 
-    public void setDiscografica(String discografica) {
-        this.discografica = discografica;}
+    public String getTipoAlbum() { return tipoAlbum;}
 
-    public String getTipoAlbum() {
-        return tipoAlbum;}
+    public void setTipoAlbum(String tipoAlbum) { this.tipoAlbum = tipoAlbum;}
 
-    public void setTipoAlbum(String tipoAlbum) {
-        this.tipoAlbum = tipoAlbum;}
-
-    public static int getMaxCanciones() {
-        return MAX_CANCIONES;}
+    public static int getMaxCanciones() { return MAX_CANCIONES;}
 
     // Métodos
 
@@ -116,16 +98,15 @@ public class Album {
 
     // Métodos (gestión)
 
-    //Eliminar por posición
+        //Eliminar por posición
     public void eliminarCancion(int posicion) throws CancionNoEncontradaException {
-
         if (posicion < 1 || posicion > canciones.size()) {
             throw new CancionNoEncontradaException("Canción no encontrada.");
         }
         this.canciones.remove(posicion - 1);
     }
 
-    // Eliminar por referencia de objeto
+        // Eliminar por referencia de objeto
     public void eliminarCancion(Cancion cancion) throws CancionNoEncontradaException {
         if (!this.canciones.remove(cancion)) {
             throw new CancionNoEncontradaException("La canción no existe en este álbum.");
@@ -133,7 +114,7 @@ public class Album {
         cancion.setAlbum(null); // Limpiamos la relación
     }
 
-    // Suma de duraciones en segundos
+        // Suma de duraciones en segundos
     public int getDuracionTotal() {
         int total = 0;
         for (Cancion c : canciones) {
@@ -155,18 +136,18 @@ public class Album {
         }
     }
 
-    // Tamaño de la lista
+        // Tamaño de la lista
     public int getNumCanciones() {
         return canciones.size();
     }
 
-    // Ordena por popularidad
+        // Ordena por popularidad
     public void ordenarPorPopularidad() {
         // (c2, c1) en lugar de (c1, c2) hace que el orden sea DESCENDENTE
         this.canciones.sort((c1, c2) -> Integer.compare(c2.getReproducciones(), c1.getReproducciones()));
     }
 
-    // Obtener por posición (1-based)
+        // Obtener por posición (1-based)
     public Cancion getCancion(int posicion) throws CancionNoEncontradaException {
         if (posicion < 1 || posicion > canciones.size()) {
             throw new CancionNoEncontradaException("Posición inválida: " + posicion);
@@ -174,7 +155,7 @@ public class Album {
         return canciones.get(posicion - 1);
     }
 
-    // Suma de todas las reproducciones
+        // Suma de todas las reproducciones
     public int getTotalReproducciones() {
         int total = 0;
         for (Cancion c : canciones) {

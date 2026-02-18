@@ -8,13 +8,10 @@ public enum TipoAnuncio {
     private int duracionSegundos;
     private double costoPorImpresion;
 
-
     // Constructores
-
     TipoAnuncio(int duracionSegundos, double costoPorImpresion) {
         this.duracionSegundos = duracionSegundos;
         this.costoPorImpresion = costoPorImpresion;
-
     }
 
     //Setters

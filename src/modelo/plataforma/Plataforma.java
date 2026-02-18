@@ -23,11 +23,9 @@ import modelo.usuarios.Usuario;
 import modelo.usuarios.UsuarioGratuito;
 import modelo.usuarios.UsuarioPremium;
 import utilidades.RecomendadorIA;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
 import enums.TipoAnuncio;
 import java.util.Random;
 

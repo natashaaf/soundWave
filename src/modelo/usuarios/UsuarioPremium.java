@@ -10,6 +10,10 @@ import modelo.contenido.Contenido;
 
 import java.util.ArrayList;
 
+/**
+ * Esta clase define a los usuarios Premium.
+ * A diferencia de los gratuitos, estos pueden descargar música y no tienen anuncios.
+ */
 public class UsuarioPremium extends Usuario {
 
     // Atributos privados
@@ -21,7 +25,7 @@ public class UsuarioPremium extends Usuario {
     // Constante
     private static final int MAX_DESCARGAS_DEFAULT = 100;
 
-    // --- CONSTRUCTORES ---
+    // Constructores
 
     public UsuarioPremium(String nombre, String email, String password)
             throws EmailInvalidoException, PasswordDebilException {
@@ -30,6 +34,7 @@ public class UsuarioPremium extends Usuario {
 
     public UsuarioPremium(String nombre, String email, String password, TipoSuscripcion suscripcion)
             throws EmailInvalidoException, PasswordDebilException {
+        // Llamamos al padre y configuramos las opciones por defecto del plan Premium
         super(nombre, email, password, suscripcion);
         this.descargasOffline = true;
         this.maxDescargas = MAX_DESCARGAS_DEFAULT;
@@ -37,7 +42,7 @@ public class UsuarioPremium extends Usuario {
         this.calidadAudio = "Alta (320kbps)";
     }
 
-    // --- GETTERS Y SETTERS ---
+    // Getters and setters
 
     public boolean isDescargasOffline() {
         return descargasOffline;
@@ -51,49 +56,13 @@ public class UsuarioPremium extends Usuario {
         return maxDescargas;
     }
 
-    // --- MÉTODOS PROPIOS ---
-
-    public void descargar(Contenido contenido) throws LimiteDescargasException, ContenidoYaDescargadoException {
-        if (!verificarEspacioDescarga()) {
-            throw new LimiteDescargasException("Has alcanzado el límite máximo de " + maxDescargas + " descargas.");
-        }
-        if (descargados.contains(contenido)) {
-            throw new ContenidoYaDescargadoException("Este contenido ya se encuentra disponible offline.");
-        }
-
-        this.descargados.add(contenido);
-        System.out.println("Contenido descargado exitosamente: " + contenido.getTitulo());
-    }
-
-    public boolean eliminarDescarga(Contenido contenido) {
-        return this.descargados.remove(contenido);
-    }
-
-    public boolean verificarEspacioDescarga() {
-        return this.descargados.size() < this.maxDescargas;
-    }
-
-    public int getDescargasRestantes() {
-        return Math.max(0, maxDescargas - descargados.size());
-    }
-
-    public void cambiarCalidadAudio(String calidad) {
-        // Lógica de validación de calidad (ejemplo simple)
-        if (calidad != null && !calidad.isBlank()) {
-            this.calidadAudio = calidad;
-            System.out.println("Calidad de audio actualizada a: " + calidad);
-        }
-    }
-
-    public void limpiarDescargas() {
-        this.descargados.clear();
-    }
-
-    // Copia defensiva de la lista de descargas
     public ArrayList<Contenido> getDescargados() {
         return new ArrayList<>(this.descargados);
     }
 
+    /**
+     * Indica cuántos elementos hay guardados actualmente en la lista de descargas.
+     */
     public int getNumDescargados() {
         return this.descargados.size();
     }
@@ -105,22 +74,66 @@ public class UsuarioPremium extends Usuario {
     public void setCalidadAudio(String calidadAudio) {
         this.calidadAudio = calidadAudio;
     }
-    // --- OVERRIDES DE LÓGICA ---
 
+    // Métodos
+
+    /**
+     * Intenta bajar una canción.
+     * Revisa que no se pase del límite de 100 y que la canción no esté ya descargada.
+     */
+    public void descargar(Contenido contenido) throws LimiteDescargasException, ContenidoYaDescargadoException {
+        // Primero mira si queda espacio en el límite de descargas
+        if (!verificarEspacioDescarga()) {
+            throw new LimiteDescargasException("Has alcanzado el límite máximo de " + maxDescargas + " descargas.");
+        }
+        // Luego mira si el contenido ya estaba en la lista de descargados
+        if (descargados.contains(contenido)) {
+            throw new ContenidoYaDescargadoException("Este contenido ya se encuentra disponible offline.");
+        }
+
+        // Si todo está bien, lo añade a la lista
+        this.descargados.add(contenido);
+        System.out.println("Contenido descargado exitosamente: " + contenido.getTitulo());
+    }
+
+    public boolean eliminarDescarga(Contenido contenido) {
+        return this.descargados.remove(contenido);
+    }
+
+    /**
+     * Compara si la cantidad de canciones bajadas es menor al límite permitido.
+     */
+    public boolean verificarEspacioDescarga() {
+        return this.descargados.size() < this.maxDescargas;
+    }
+
+    public int getDescargasRestantes() {
+        return Math.max(0, maxDescargas - descargados.size());
+    }
+
+    public void cambiarCalidadAudio(String calidad) {}
+
+    public void limpiarDescargas() {
+        this.descargados.clear();
+    }
+
+    // Overrides
+
+    /**
+     * Reproduce música en alta calidad.
+     * Como es Premium, no necesita anuncios ni tiene límites de tiempo.
+     */
     @Override
     public void reproducir(Contenido contenido) throws ContenidoNoDisponibleException {
-        // Validación básica de disponibilidad
+        // Mira si el contenido está activo en la plataforma
         if (contenido == null || !contenido.isDisponible()) {
             throw new ContenidoNoDisponibleException("El contenido no está disponible para reproducción.");
         }
 
-        // Lógica Premium: Sin anuncios y sin límites diarios
+        // Suena la música directamente y se guarda en el historial
         System.out.println("Reproduciendo en alta calidad (" + calidadAudio + "): " + contenido.getTitulo());
         this.agregarAlHistorial(contenido);
-        // Nota: No lanza LimiteDiarioAlcanzadoException ni AnuncioRequeridoException
     }
-
-    // --- OVERRIDES ---
 
     @Override
     public String toString() {

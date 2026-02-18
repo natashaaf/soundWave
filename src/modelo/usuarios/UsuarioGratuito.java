@@ -7,10 +7,14 @@ import excepciones.usuario.EmailInvalidoException;
 import excepciones.usuario.LimiteDiarioAlcanzadoException;
 import excepciones.usuario.PasswordDebilException;
 import modelo.contenido.Contenido;
-import modelo.plataforma.Anuncio; // Asumiendo que existe esta clase
+import modelo.plataforma.Anuncio;
 
 import java.util.Date;
 
+/**
+ * Esta clase es para los usuarios gratuitos.
+ * Tienen límites de canciones por día y tienen que escuchar anuncios cada cierto tiempo.
+ */
 public class UsuarioGratuito extends Usuario {
 
     // Atributos privados
@@ -25,10 +29,11 @@ public class UsuarioGratuito extends Usuario {
     private static final int LIMITE_DIARIO = 50;
     private static final int CANCIONES_ENTRE_ANUNCIOS = 3;
 
-    // --- CONSTRUCTOR ---
+    // Constructores
+
     public UsuarioGratuito(String nombre, String email, String password)
             throws EmailInvalidoException, PasswordDebilException {
-        // Llamada al constructor padre con el tipo FREE/GRATUITO
+        // Llamamos al constructor del padre y le decimos que la suscripción es gratuita
         super(nombre, email, password, TipoSuscripcion.GRATUITO);
 
         this.limiteReproducciones = LIMITE_DIARIO;
@@ -37,28 +42,32 @@ public class UsuarioGratuito extends Usuario {
         this.anunciosEscuchados = 0;
     }
 
-    // --- OVERRIDES DE LÓGICA ---
+    // Overrides de lógica
 
+    /**
+     * Intenta reproducir una canción o podcast revisando si el usuario todavía
+     * tiene permitido escuchar música hoy o si le toca publicidad.
+     */
     @Override
     public void reproducir(Contenido contenido)
             throws ContenidoNoDisponibleException, LimiteDiarioAlcanzadoException, AnuncioRequeridoException {
 
-        // 1. Validar disponibilidad básica
+        // Primero revisamos si el contenido existe y está disponible
         if (contenido == null || !contenido.isDisponible()) {
             throw new ContenidoNoDisponibleException("El contenido no está disponible.");
         }
 
-        // 2. Validar límite diario
+        // Si ya escuchó las 50 canciones del día, no puede seguir
         if (!puedeReproducir()) {
             throw new LimiteDiarioAlcanzadoException("Has alcanzado tu límite de 50 canciones por hoy.");
         }
 
-        // 3. Validar si toca anuncio
+        // Si ya pasaron 3 canciones sin publicidad, tiene que ver un anuncio
         if (debeVerAnuncio()) {
             throw new AnuncioRequeridoException("Es necesario ver un anuncio para continuar.");
         }
 
-        // Si pasa las validaciones, se "reproduce"
+        // Si todo está bien, sumamos la reproducción y lo guardamos en el historial
         System.out.println("Reproduciendo: " + contenido.getTitulo());
         this.reproduccionesHoy++;
         this.cancionesSinAnuncio++;
@@ -66,13 +75,16 @@ public class UsuarioGratuito extends Usuario {
         this.agregarAlHistorial(contenido);
     }
 
-    // --- MÉTODOS PROPIOS ---
+    // Métodos propios
 
+    /**
+     * Simula que el usuario ve un anuncio y pone a cero el contador de canciones.
+     */
     public void verAnuncio() {
         System.out.println("Reproduciendo anuncio aleatorio...");
         this.anunciosEscuchados++;
         this.ultimoAnuncio = new Date();
-        this.cancionesSinAnuncio = 0; // Reinicia el contador de canciones entre anuncios
+        this.cancionesSinAnuncio = 0; // Se reinicia para que pueda escuchar otras 3 canciones
     }
 
     public void verAnuncio(Anuncio anuncio) {
@@ -86,18 +98,30 @@ public class UsuarioGratuito extends Usuario {
         }
     }
 
+    /**
+     * Comprueba si el usuario todavía no ha llegado al máximo de 50 canciones.
+     */
     public boolean puedeReproducir() {
         return this.reproduccionesHoy < this.limiteReproducciones;
     }
 
+    /**
+     * Revisa si el contador de canciones sin publicidad llegó al límite (3).
+     */
     public boolean debeVerAnuncio() {
         return this.cancionesSinAnuncio >= CANCIONES_ENTRE_ANUNCIOS;
     }
 
+    /**
+     * Pone en cero el contador de reproducciones diarias.
+     */
     public void reiniciarContadorDiario() {
         this.reproduccionesHoy = 0;
     }
 
+    /**
+     * Nos dice cuántas canciones le quedan antes de que se bloquee la reproducción por hoy.
+     */
     public int getReproduccionesRestantes() {
         return Math.max(0, limiteReproducciones - reproduccionesHoy);
     }
@@ -106,7 +130,7 @@ public class UsuarioGratuito extends Usuario {
         return Math.max(0, CANCIONES_ENTRE_ANUNCIOS - cancionesSinAnuncio);
     }
 
-    // --- GETTERS Y SETTERS ---
+    // Getters and setters
 
     public int getAnunciosEscuchados() {
         return anunciosEscuchados;
@@ -116,6 +140,9 @@ public class UsuarioGratuito extends Usuario {
         return ultimoAnuncio;
     }
 
+    /**
+     * Indica cuántas canciones lleva escuchadas en el día de hoy.
+     */
     public int getReproduccionesHoy() {
         return reproduccionesHoy;
     }
@@ -128,6 +155,9 @@ public class UsuarioGratuito extends Usuario {
         return limiteReproducciones;
     }
 
+    /**
+     * Indica cuántas canciones lleva escuchadas desde el último anuncio.
+     */
     public int getCancionesSinAnuncio() {
         return cancionesSinAnuncio;
     }
@@ -136,7 +166,7 @@ public class UsuarioGratuito extends Usuario {
         this.cancionesSinAnuncio = cancionesSinAnuncio;
     }
 
-    // --- OVERRIDES ---
+    // Overrides
 
     @Override
     public String toString() {

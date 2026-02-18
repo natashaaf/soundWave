@@ -10,6 +10,9 @@ import modelo.contenido.Contenido;
 
 import java.util.*;
 
+/**
+ * Esta clase Analiza los gustos de los usuarios para recomendar música o podcasts nuevos.
+ */
 public class RecomendadorIA implements Recomendador {
 
     // Atributos privados
@@ -23,10 +26,9 @@ public class RecomendadorIA implements Recomendador {
     // Constante
     private static final double UMBRAL_DEFAULT = 0.6;
 
-    // --- CONSTRUCTORES ---
+    // Constructores
 
     public RecomendadorIA() {
-        // Usa 'CONTENIDO' que es el nombre real en tu Enum AlgoritmoRecomendacion
         this(AlgoritmoRecomendacion.CONTENIDO);
     }
 
@@ -39,10 +41,49 @@ public class RecomendadorIA implements Recomendador {
         this.modeloEntrenado = false;
     }
 
-    // --- IMPLEMENTACIÓN DE RECOMENDADOR (Overrides) ---
+    // Getters and Setters
 
+    public AlgoritmoRecomendacion getAlgoritmo() {
+        return algoritmo;
+    }
+    public void setAlgoritmo(AlgoritmoRecomendacion algoritmo) {
+        this.algoritmo = algoritmo;
+    }
+
+    public double getUmbralSimilitud() {
+        return umbralSimilitud;
+    }
+    public void setUmbralSimilitud(
+            double umbralSimilitud) {
+        this.umbralSimilitud = umbralSimilitud;
+    }
+
+    /**
+     * Informa si la IA ya procesó los datos y está lista para recomendar.
+     * */
+    public boolean isModeloEntrenado() {
+        return modeloEntrenado;
+    }
+
+    /**
+     *  Entrega una copia de los gustos almacenados de todos los usuarios.
+     *  */
+    public HashMap<String, ArrayList<String>> getMatrizPreferencias() {
+        return new HashMap<>(this.matrizPreferencias);
+    }
+
+    public void setCatalogoReferencia(ArrayList<Contenido> catalogo) {
+        this.catalogoReferencia = new ArrayList<>(catalogo);
+    }
+
+    // Implementación de interfaz
+
+    /**
+     * Busca en el catálogo cosas que le gusten al usuario pero que no haya escuchado aún.
+     */
     @Override
     public ArrayList<Contenido> recomendar(Usuario usuario) throws RecomendacionException {
+        // Primero revisamos si la IA aprendió y si el usuario tiene historial
         if (!modeloEntrenado) {
             throw new ModeloNoEntrenadoException ("El modelo de IA no ha sido entrenado.");
         }
@@ -55,7 +96,7 @@ public class RecomendadorIA implements Recomendador {
 
         if (preferencias != null) {
             for (Contenido contenido : catalogoReferencia) {
-                // No recomendar algo que ya está en su historial
+                // Solo recomendamos cosas que el usuario NO haya escuchado antes
                 if (!usuario.getHistorial().contains(contenido)) {
                     if (calcularSimilitudContenido(contenido, preferencias) >= umbralSimilitud) {
                         recomendaciones.add(contenido);
@@ -66,26 +107,28 @@ public class RecomendadorIA implements Recomendador {
         return recomendaciones;
     }
 
+    /**
+     * Crea una lista de contenidos que tengan el mismo género que el original.
+     */
     @Override
     public ArrayList<Contenido> obtenerSimilares(Contenido contenido) throws RecomendacionException {
         ArrayList<Contenido> similares = new ArrayList<>();
-        // El método getGenero() ahora es visible porque está en la clase Contenido
         String generoReferencia = contenido.getGenero().toString();
 
         for (Contenido c : catalogoReferencia) {
-            if (!c.equals(contenido) && c.getGenero().equals(generoReferencia)) {
+            // Buscamos coincidencias de género sin incluir el mismo archivo
+            if (!c.equals(contenido) && c.getGenero().toString().equals(generoReferencia)) {
                 similares.add(c);
             }
         }
         return similares;
     }
 
-    // --- MÉTODOS PROPIOS ---
+    // Lógica de entrenamiento
 
-    public void entrenarModelo(ArrayList<Usuario> usuarios) {
-        entrenarModelo(usuarios, this.catalogoReferencia);
-    }
-
+    /**
+     * Hace que la IA aprenda analizando qué géneros escucha cada usuario.
+     */
     public void entrenarModelo(ArrayList<Usuario> usuarios, ArrayList<Contenido> catalogo) {
         this.catalogoReferencia = new ArrayList<>(catalogo);
         for (Usuario u : usuarios) {
@@ -95,16 +138,29 @@ public class RecomendadorIA implements Recomendador {
         this.modeloEntrenado = true;
     }
 
+    public void entrenarModelo(ArrayList<Usuario> usuarios) {
+        entrenarModelo(usuarios, this.catalogoReferencia);
+    }
+
+    // Métodos de análisis
+
+    /**
+     * Compara los gustos de dos usuarios para ver qué tanto se parecen.
+     */
     public double calcularSimilitud(Usuario u1, Usuario u2) {
         ArrayList<String> p1 = matrizPreferencias.get(u1.getId());
         ArrayList<String> p2 = matrizPreferencias.get(u2.getId());
 
         if (p1 == null || p2 == null) return 0.0;
 
+        // Calcula cuántos géneros tienen en común respecto al total
         long coincidencias = p1.stream().filter(p2::contains).count();
         return (double) coincidencias / Math.max(p1.size(), p2.size());
     }
 
+    /**
+     * Revisa el historial de un usuario para saber qué géneros prefiere.
+     */
     public void actualizarPreferencias(Usuario usuario) {
         ArrayList<String> generosVistos = new ArrayList<>();
         for (Contenido c : usuario.getHistorial()) {
@@ -116,6 +172,9 @@ public class RecomendadorIA implements Recomendador {
         matrizPreferencias.put(usuario.getId(), generosVistos);
     }
 
+    /**
+     * Identifica cuáles son los géneros más escuchados por toda la comunidad.
+     */
     public HashMap<String, Integer> obtenerGenerosPopulares() {
         HashMap<String, Integer> populares = new HashMap<>();
         for (ArrayList<String> prefs : matrizPreferencias.values()) {
@@ -126,29 +185,12 @@ public class RecomendadorIA implements Recomendador {
         return populares;
     }
 
-    // --- MÉTODO PRIVADO ---
+    // Métodos internos
 
+    /**
+     * Verifica si el género de una canción encaja con los gustos del usuario.
+     */
     private double calcularSimilitudContenido(Contenido contenido, ArrayList<String> preferencias) {
-        // Si el género del contenido está en la lista de gustos, similitud máxima (1.0)
-        return preferencias.contains(contenido.getGenero()) ? 1.0 : 0.0;
-    }
-
-    // --- GETTERS Y SETTERS ---
-
-    public AlgoritmoRecomendacion getAlgoritmo() { return algoritmo; }
-    public void setAlgoritmo(AlgoritmoRecomendacion algoritmo) { this.algoritmo = algoritmo; }
-
-    public double getUmbralSimilitud() { return umbralSimilitud; }
-    public void setUmbralSimilitud(double umbralSimilitud) { this.umbralSimilitud = umbralSimilitud; }
-
-    public boolean isModeloEntrenado() { return modeloEntrenado; }
-
-    public HashMap<String, ArrayList<String>> getMatrizPreferencias() {
-        // Copia defensiva
-        return new HashMap<>(this.matrizPreferencias);
-    }
-
-    public void setCatalogoReferencia(ArrayList<Contenido> catalogo) {
-        this.catalogoReferencia = new ArrayList<>(catalogo);
+        return preferencias.contains(contenido.getGenero().toString()) ? 1.0 : 0.0;
     }
 }

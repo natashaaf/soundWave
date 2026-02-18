@@ -50,33 +50,26 @@ public abstract class Contenido {
         return titulo;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
 
     public int getReproducciones() {
         return reproducciones;
     }
 
     public void setReproducciones(int reproducciones) {
-        this.reproducciones = reproducciones;
-    }
+        this.reproducciones = reproducciones; }
 
     public int getLikes() {
         return likes;
     }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
+    public void setLikes(int likes) { this.likes = likes; }
 
     public int getDuracionSegundos() {
         return this.duracionSegundos;
     }
 
-    public void setDuracionSegundos(int duracionSegundos) {
-        this.duracionSegundos = duracionSegundos;
-    }
+    public void setDuracionSegundos(int duracionSegundos) { this.duracionSegundos = duracionSegundos;}
 
     public ArrayList<String> getTags() {
         return tags;
@@ -94,47 +87,43 @@ public abstract class Contenido {
         this.disponible = disponible;
     }
 
-    public Date getFechaPublicacion() {
-        return fechaPublicacion;
-    }
+    public Date getFechaPublicacion() { return fechaPublicacion;}
 
-    public void setFechaPublicacion(Date fechaPublicacion) {
-        this.fechaPublicacion = fechaPublicacion;
-    }
+    public void setFechaPublicacion(Date fechaPublicacion) { this.fechaPublicacion = fechaPublicacion;}
 
     // Métodos
     public abstract void reproducir() throws ContenidoNoDisponibleException;
 
-    public void aumentarReproducciones(){
-        this.reproducciones++;}
+    public void aumentarReproducciones(){ this.reproducciones++;}
 
-    public void agregarLike(){
-        this.likes++;}
+    public void agregarLike(){ this.likes++;}
 
-    public boolean esPopular(){
-        return this.reproducciones > 100000;
-    }
+    public boolean esPopular(){ return true;}
 
     public void validarDuracion(int duracionSegundos) throws DuracionInvalidaException{
         if(this.duracionSegundos <= 0){
             throw new DuracionInvalidaException("La duración es invalida");
         }
     }
+
     public void agregarTag(String tag){
         if (tag != null && !tieneTag(tag)){
             this.tags.add(tag);
         }
     }
+
     public boolean tieneTag(String tag){
         return this.tags.contains(tag);
     }
+
     public void marcarDisponible(){
         this.disponible = true;
     }
+
     public void marcarNoDisponible(){
         this.disponible = false;
-
     }
+
     public String getDuracionFormateada(){
         int minutos = this.duracionSegundos / 60;
         int segundos = this.duracionSegundos % 60;

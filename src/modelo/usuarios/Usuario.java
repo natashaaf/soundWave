@@ -14,6 +14,10 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Clase abstracta que define la estructura base para los usuarios del sistema.
+ * Gestiona el perfil, las bibliotecas personales y el historial de reproducción.
+ */
 public abstract class Usuario {
 
     // Atributos protegidos
@@ -30,7 +34,8 @@ public abstract class Usuario {
 
     private static final int MAX_HISTORIAL = 100;
 
-    // --- CONSTRUCTOR ---
+    // Constructores
+
     public Usuario(String nombre, String email, String password, TipoSuscripcion suscripcion)
             throws EmailInvalidoException, PasswordDebilException {
 
@@ -41,18 +46,18 @@ public abstract class Usuario {
         this.suscripcion = suscripcion;
         this.fechaRegistro = new Date();
 
-        // Validaciones iniciales
+        // Validación de credenciales al crear la instancia
         validarEmail();
         validarPassword();
 
-        // Inicialización de listas
+        // Inicialización de las listas de datos
         this.misPlaylists = new ArrayList<>();
         this.historial = new ArrayList<>();
         this.playlistsSeguidas = new ArrayList<>();
         this.contenidosLiked = new ArrayList<>();
     }
 
-    // --- GETTERS AND SETTERS ---
+    // Getters and setters
 
     public String getId() {
         return id;
@@ -70,13 +75,16 @@ public abstract class Usuario {
         return email;
     }
 
+    /**
+     * Actualiza el correo. Si el nuevo formato es inválido, se restaura el valor anterior.
+     */
     public void setEmail(String email) throws EmailInvalidoException {
         String emailAnterior = this.email;
         this.email = email;
         try {
             validarEmail();
         } catch (EmailInvalidoException e) {
-            this.email = emailAnterior; // Revertimos si falla
+            this.email = emailAnterior;
             throw e;
         }
     }
@@ -85,13 +93,16 @@ public abstract class Usuario {
         return password;
     }
 
+    /**
+     * Cambia la contraseña, pero primero revisa que cumpla con los requisitos mínimos.
+     */
     public void setPassword(String password) throws PasswordDebilException {
         String passwordAnterior = this.password;
         this.password = password;
         try {
             validarPassword();
         } catch (PasswordDebilException e) {
-            this.password = passwordAnterior; // Revertimos si falla
+            this.password = passwordAnterior;
             throw e;
         }
     }
@@ -108,15 +119,23 @@ public abstract class Usuario {
         return fechaRegistro;
     }
 
-    // Getters con Copia Defensiva para proteger las listas
+    /**
+     * Retorna una copia de las listas de reproducción para evitar modificaciones externas.
+     */
     public ArrayList<Playlist> getMisPlaylists() {
         return new ArrayList<>(this.misPlaylists);
     }
 
+    /**
+     * Retorna una copia del historial para proteger la integridad de los datos originales.
+     */
     public ArrayList<Contenido> getHistorial() {
         return new ArrayList<>(this.historial);
     }
 
+    /**
+     * Retorna una copia de las listas de reproducción seguidas.
+     */
     public ArrayList<Playlist> getPlaylistsSeguidas() {
         return new ArrayList<>(this.playlistsSeguidas);
     }
@@ -125,18 +144,28 @@ public abstract class Usuario {
         return new ArrayList<>(this.contenidosLiked);
     }
 
-    // --- MÉTODO ABSTRACTO ---
+    // Método abstracto
+
+    /**
+     * Método que debe ser implementado por las subclases según el tipo de suscripción.
+     */
     public abstract void reproducir(Contenido contenido)
             throws ContenidoNoDisponibleException, LimiteDiarioAlcanzadoException, AnuncioRequeridoException;
 
-    // --- MÉTODOS CONCRETOS (Lógica) ---
+    // Métodos (lógica)
 
+    /**
+     * Crea una nueva lista de reproducción y la añade a la colección del usuario.
+     */
     public Playlist crearPlaylist(String nombrePlaylist) {
         Playlist nueva = new Playlist(nombrePlaylist, this, false, "Creada por " + this.nombre);
         this.misPlaylists.add(nueva);
         return nueva;
     }
 
+    /**
+     * Añade una playlist pública a la lista de seguimiento e incrementa su contador.
+     */
     public void seguirPlaylist(Playlist playlist) {
         if (playlist != null && playlist.isEsPublica() && !playlistsSeguidas.contains(playlist)) {
             this.playlistsSeguidas.add(playlist);
@@ -160,6 +189,9 @@ public abstract class Usuario {
         this.contenidosLiked.remove(contenido);
     }
 
+    /**
+     * Verifica que el formato del correo cumpla con los estándares.
+     */
     public boolean validarEmail() throws EmailInvalidoException {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
         if (email == null || email.isEmpty()  || !email.matches(regex)) {
@@ -168,6 +200,9 @@ public abstract class Usuario {
         return true;
     }
 
+    /**
+     * Valida que la contraseña tenga la longitud mínima requerida por seguridad.
+     */
     public boolean validarPassword() throws PasswordDebilException {
         if (this.password == null || this.password.length() < 8) {
             throw new PasswordDebilException("Password débil (mínimo 8 caracteres).");
@@ -175,6 +210,9 @@ public abstract class Usuario {
         return true;
     }
 
+    /**
+     * Añade un elemento al historial. Si se alcanza el límite, elimina el registro más antiguo.
+     */
     public void agregarAlHistorial(Contenido contenido) {
         if (this.historial.size() >= MAX_HISTORIAL) {
             this.historial.remove(0);
@@ -187,11 +225,10 @@ public abstract class Usuario {
     }
 
     public boolean esPremium() {
-        // Asegúrate de que TipoSuscripcion.FREE exista en tu Enum
         return this.suscripcion != TipoSuscripcion.GRATUITO;
     }
 
-    // --- OVERRIDES ---
+    // Overrides
 
     @Override
     public String toString() {

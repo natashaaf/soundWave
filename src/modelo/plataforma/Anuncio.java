@@ -2,6 +2,11 @@ package modelo.plataforma;
 
 import enums.TipoAnuncio;
 
+/**
+ * Gestiona los anuncios para usuarios con plan gratuito.
+ * Se encarga de controlar la duración, el presupuesto disponible y
+ * cuántas veces puede reproducirse antes de agotarse el saldo.
+ */
 public class Anuncio {
 
     // Atributos
@@ -15,99 +20,107 @@ public class Anuncio {
     private boolean activo;
 
     // Constructores
+
     public Anuncio(String empresa, TipoAnuncio tipo, double presupuesto, String audioURL) {
         this.empresa = empresa;
         this.audioURL = audioURL;
         this.tipo = tipo;
         this.presupuesto = presupuesto;
-        this.activo = true;
+        this.activo = true; // Por defecto, el anuncio empieza funcionando
     }
 
-    // Constructores basico
     public Anuncio(String empresa, TipoAnuncio tipo, double presupuesto){
         this(empresa, tipo, presupuesto, "");
     }
 
-
     // Getters and setters
-    public String getId() {
-        return id;}
 
+    public String getId() {
+        return id;
+    }
     public void setId(String id) {
-        this.id = id;}
+        this.id = id;
+    }
 
     public String getEmpresa() {
-        return empresa;}
+        return empresa;
+    }
 
     public void setEmpresa(String empresa) {
-        this.empresa = empresa;}
+        this.empresa = empresa;
+    }
 
     public int getDuracionSegundos() {
-        return duracionSegundos;}
+        return duracionSegundos;
+    }
 
     public void setDuracionSegundos(int duracionSegundos) {
-        this.duracionSegundos = duracionSegundos;}
+        this.duracionSegundos = duracionSegundos;
+    }
 
     public String getAudioURL() {
-        return audioURL;}
+        return audioURL;
+    }
 
     public void setAudioURL(String audioURL) {
-        this.audioURL = audioURL;}
+        this.audioURL = audioURL;
+    }
 
     public TipoAnuncio getTipo() {
-        return tipo;}
+        return tipo;
+    }
 
     public void setTipo(TipoAnuncio tipo) {
-        this.tipo = tipo;}
+        this.tipo = tipo;
+    }
 
     public int getImpresiones() {
-        return impresiones;}
+        return impresiones;
+    }
 
     public void setImpresiones(int impresiones) {
-        this.impresiones = impresiones;}
+        this.impresiones = impresiones;
+    }
 
     public double getPresupuesto() {
-        return presupuesto;}
+        return presupuesto;
+    }
 
     public void setPresupuesto(double presupuesto) {
-        this.presupuesto = presupuesto;}
+        this.presupuesto = presupuesto;
+    }
 
     public boolean isActivo() {
-        return activo;}
+        return activo;
+    }
 
     public void setActivo(boolean activo) {
-        this.activo = activo;}
+        this.activo = activo;
+    }
 
     // Métodos
-    public void reproducir() {
-        if (puedeMostrarse()) {
-            System.out.println("Reproduciendo anuncio de: " + this.empresa);
-            registrarImpresion();
-        } else {
-            desactivar();
-            System.out.println("Anuncio no disponible.");
-        }
-    }
 
-    public void registrarImpresion(){
-        this.impresiones++;
-        if(!puedeMostrarse()){
-            desactivar();
-        }
-    }
+
+    public void reproducir() {}
+
+    public void registrarImpresion(){}
+
+    /**
+     * Consulta el precio de una sola reproducción según el tipo de anuncio.
+     * */
     public double calcularCostoPorImpresion() {
-        // Obtenemos el costo desde el Enum TipoAnuncio
         return this.tipo.getCostoPorImpresion();
     }
+
+    /**
+     *  Multiplica las veces que sonó el anuncio por lo que cuesta cada una.
+     *  */
     public double calcularCostoTotal() {
         return this.impresiones * calcularCostoPorImpresion();
     }
 
     public int calcularImpresionesRestantes() {
-        double presupuestoRestante = this.presupuesto - calcularCostoTotal();
-        if (presupuestoRestante <= 0) return 0;
-        // Calculamos cuántas impresiones completas podemos pagar aún
-        return (int) (presupuestoRestante / calcularCostoPorImpresion());
+        return 0;
     }
 
     public void desactivar() {
@@ -118,8 +131,10 @@ public class Anuncio {
         this.activo = true;
     }
 
+    /**
+     * Revisa si el anuncio está habilitado y si el dinero restante alcanza para una vez más.
+     */
     public boolean puedeMostrarse() {
-        // Debe estar activo y tener presupuesto para al menos una impresión más
         return this.activo && (this.presupuesto - calcularCostoTotal() >= calcularCostoPorImpresion());
     }
 
@@ -127,16 +142,7 @@ public class Anuncio {
 
     @Override
     public String toString() {
-        return "Anuncio{" +
-                "id='" + id + '\'' +
-                ", empresa='" + empresa + '\'' +
-                ", duracionSegundos=" + duracionSegundos +
-                ", audioURL='" + audioURL + '\'' +
-                ", tipo=" + tipo +
-                ", impresiones=" + impresiones +
-                ", presupuesto=" + presupuesto +
-                ", activo=" + activo +
-                '}';
+        return "Anuncio: " + empresa + " [" + tipo + "] - Vistas: " + impresiones;
     }
 
     @Override
@@ -144,11 +150,11 @@ public class Anuncio {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Anuncio anuncio = (Anuncio) obj;
-        return id.equals(anuncio.id);
+        return id != null && id.equals(anuncio.id);
     }
 
     @Override
     public int hashCode(){
-        return id.hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }

@@ -4,7 +4,6 @@ import excepciones.recomendacion.ModeloNoEntrenadoException;
 import excepciones.recomendacion.RecomendacionException;
 import modelo.contenido.Contenido;
 import modelo.usuarios.Usuario;
-
 import java.util.List;
 
 public interface Recomendador {

@@ -5,11 +5,10 @@ import excepciones.artista.ArtistaNoVerificadoException;
 import modelo.contenido.Cancion;
 import java.util.Objects;
 import java.util.UUID;
-
-
 import java.util.*;
 
 public class Artista {
+
     // Atributos
     private String id;
     private String nombreArtistico;
@@ -23,7 +22,7 @@ public class Artista {
 
     // Constructores
 
-    // Constructores con datos de verificación y biografia.
+        // Constructores con datos de verificación y biografia.
     public Artista(String nombreArtistico, String nombreReal, String paisOrigen, boolean verificado, String biografia){
         this.nombreArtistico = nombreArtistico;
         this.nombreReal = nombreReal;
@@ -35,67 +34,50 @@ public class Artista {
         this.id = UUID.randomUUID().toString();
     }
 
-    // Constructores básicos
+        // Constructores básicos
     public Artista(String nombreArtistico, String nombreReal, String paisOrigen) {
         this(nombreArtistico, nombreReal, paisOrigen, false, null);
     }
 
-    // Getters and setters
-    public String getId() {
-        return id;}
+        // Getters and setters
+    public String getId() { return id;}
 
-    public void setId(String id) {
-        this.id = id;}
+    public void setId(String id) { this.id = id;}
 
-    public String getNombreArtistico() {
-        return nombreArtistico;}
+    public String getNombreArtistico() { return nombreArtistico;}
 
-    public void setNombreArtistico(String nombreArtistico) {
-        this.nombreArtistico = nombreArtistico;}
+    public void setNombreArtistico(String nombreArtistico) { this.nombreArtistico = nombreArtistico;}
 
-    public String getNombreReal() {
-        return nombreReal;}
+    public String getNombreReal() { return nombreReal;}
 
-    public void setNombreReal(String nombreReal) {
-        this.nombreReal = nombreReal;}
+    public void setNombreReal(String nombreReal) { this.nombreReal = nombreReal;}
 
-    public String getPaisOrigen() {
-        return paisOrigen;}
+    public String getPaisOrigen() { return paisOrigen;}
 
-    public void setPaisOrigen(String paisOrigen) {
-        this.paisOrigen = paisOrigen;}
+    public void setPaisOrigen(String paisOrigen) { this.paisOrigen = paisOrigen;}
 
-    public ArrayList<Cancion> getDiscografia() {
-        return this.discografia;}
+    public ArrayList<Cancion> getDiscografia() { return this.discografia;}
 
     public void setDiscografia(List<Cancion> discografia) {
         this.discografia = new ArrayList<>(discografia);}
 
-    public ArrayList<Album> getAlbumes() {
-        return this.albumes;}
+    public ArrayList<Album> getAlbumes() { return this.albumes;}
 
-    public void setAlbumes(List<Album> albumes) {
-        this.albumes = new ArrayList<>(albumes);}
+    public void setAlbumes(List<Album> albumes) { this.albumes = new ArrayList<>(albumes);}
 
-    public int getOyentesMensuales() {
-        return oyentesMensuales;}
+    public int getOyentesMensuales() { return oyentesMensuales;}
 
-    public void setOyentesMensuales(int oyentesMensuales) {
-        this.oyentesMensuales = oyentesMensuales;}
+    public void setOyentesMensuales(int oyentesMensuales) { this.oyentesMensuales = oyentesMensuales;}
 
-    public boolean isVerificado() {
-        return verificado;}
+    public boolean isVerificado() { return verificado;}
 
-    public void setVerificado() {
-        this.verificado = true;}
+    public void setVerificado() { this.verificado = true;}
 
-    public String getBiografia() {
-        return biografia;}
+    public String getBiografia() { return biografia;}
 
-    public void setBiografia(String biografia) {
-        this.biografia = biografia;}
+    public void setBiografia(String biografia) { this.biografia = biografia;}
 
-    // Metodos
+    // Métodos
     public void publicarCancion(Cancion cancion){
         if (cancion != null) {
             this.discografia.add(cancion);
@@ -104,6 +86,7 @@ public class Artista {
             System.out.println("Error: No se puede publicar una canción nula.");
         }
     }
+
     public Album crearAlbum(String titulo, Date fecha) throws ArtistaNoVerificadoException, AlbumYaExisteException {
         if(!this.verificado){
            throw new ArtistaNoVerificadoException("El artista debe estar verificado.");
@@ -140,9 +123,9 @@ public class Artista {
         return (double) getTotalReproducciones()/ discografia.size();
     }
 
-    public boolean esVerificado(){
-        return this.verificado;
+    public boolean esVerificado(){ return this.verificado;
     }
+
     public int getTotalReproducciones(){
         int total = 0;
         for (Album album : albumes){
@@ -150,8 +133,7 @@ public class Artista {
         }
         return total;
     }
-    public void verificar(){
-        this.verificado = true;
+    public void verificar(){ this.verificado = true;
 
     }
     public void incrementarOyentes(){
@@ -159,7 +141,6 @@ public class Artista {
     }
 
     // Overrides
-
 
     @Override
     public String toString() {

@@ -13,7 +13,6 @@ public enum CriterioOrden {
     private String descripcion;
 
     //Constructores
-
     CriterioOrden(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;

@@ -9,7 +9,6 @@ import excepciones.descarga.ContenidoYaDescargadoException;
 import interfaces.Descargable;
 import interfaces.Reproducible;
 import modelo.artistas.Creador;
-
 import java.util.ArrayList;
 
 public class Podcast extends Contenido implements Reproducible, Descargable {
@@ -56,29 +55,21 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
         this.creador = creador;
     }
 
-    public int getNumeroEpisodio() {
-        return numeroEpisodio;
-    }
+    public int getNumeroEpisodio() { return numeroEpisodio;}
 
-    public void setNumeroEpisodio(int numeroEpisodio) {
-        this.numeroEpisodio = numeroEpisodio;
-    }
+    public void setNumeroEpisodio(int numeroEpisodio) { this.numeroEpisodio = numeroEpisodio;}
 
     public int getTemporada() {
         return temporada;
     }
 
-    public void setTemporada(int temporada) {
-        this.temporada = temporada;
-    }
+    public void setTemporada(int temporada) { this.temporada = temporada;}
 
     public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion;}
 
     public CategoriaPodcast getCategoria() {
         return categoria;
@@ -89,17 +80,14 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
         return this.categoria;
     }
 
-    public void setCategoria(CategoriaPodcast categoria) {
-        this.categoria = categoria;
-    }
+    public void setCategoria(CategoriaPodcast categoria) {this.categoria = categoria;}
 
     public ArrayList<String> getInvitados() {
         return new ArrayList<>(this.invitados);
     }
 
     public void setInvitados(ArrayList<String> invitados) {
-        this.invitados = invitados;
-    }
+        this.invitados = invitados;}
 
     public String getTranscripcion() {
         return transcripcion;
@@ -109,29 +97,17 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
         this.transcripcion = transcripcion;
     }
 
-    public boolean isReproduciendo() {
-        return reproduciendo;
-    }
+    public boolean isReproduciendo() {return reproduciendo;}
 
-    public void setReproduciendo(boolean reproduciendo) {
-        this.reproduciendo = reproduciendo;
-    }
+    public void setReproduciendo(boolean reproduciendo) {this.reproduciendo = reproduciendo;}
 
-    public boolean isPausado() {
-        return pausado;
-    }
+    public boolean isPausado() {return pausado;}
 
-    public void setPausado(boolean pausado) {
-        this.pausado = pausado;
-    }
+    public void setPausado(boolean pausado) {this.pausado = pausado;}
 
-    public boolean isDescargado() {
-        return descargado;
-    }
+    public boolean isDescargado() {return descargado;}
 
-    public void setDescargado(boolean descargado) {
-        this.descargado = descargado;
-    }
+    public void setDescargado(boolean descargado) { this.descargado = descargado;}
 
     //Overrides
     @Override

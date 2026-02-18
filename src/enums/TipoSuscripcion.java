@@ -14,7 +14,6 @@ public enum TipoSuscripcion {
     private String nombre;
 
     // Constructores
-
     TipoSuscripcion(double precioMensual, boolean sinAnuncios, int limiteReproducciones, boolean descargasOffline, String nombre) {
         this.sinAnuncios = sinAnuncios;
         this.precioMensual = precioMensual;
@@ -23,14 +22,9 @@ public enum TipoSuscripcion {
         this.nombre = nombre;
     }
 
-    // Getters and setters
+    // Métodos
 
-
-    // Metodo
-
-
-    public double getPrecioMensual() {
-        return precioMensual;
+    public double getPrecioMensual() { return precioMensual;
     }
 
     public boolean isSinAnuncios() {

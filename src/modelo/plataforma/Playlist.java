@@ -9,6 +9,10 @@ import modelo.usuarios.Usuario;
 import java.util.UUID;
 import java.util.*;
 
+/**
+ * Esta clase sirve para gestionar listas de canciones o podcasts.
+ * Permite añadir contenido, ordenarlo y controlar quién la sigue.
+ */
 public class Playlist {
 
     // Atributos
@@ -25,6 +29,7 @@ public class Playlist {
     private static final int MAX_CONTENIDOS_DEFAULT = 500;
 
     // Constructores
+
     public Playlist(String nombre, Usuario creador, boolean esPublica, String descripcion) {
         this.id = UUID.randomUUID().toString();
         this.nombre = nombre;
@@ -40,16 +45,18 @@ public class Playlist {
     public Playlist(String nombre, Usuario creador){
         this(nombre, creador, true, " ");
     }
-    // Getters and setters
-
 
     // Métodos
-    // --- MÉTODOS SOLICITADOS ---
 
+    /**
+     * Añade un tema a la lista si hay sitio y si no está ya repetido.
+     */
     public void agregarContenido(Contenido contenido) throws PlaylistLlenaException, ContenidoDuplicadoException {
+        // Verifica que no pasemos del límite de 500 canciones
         if (this.contenidos.size() >= MAX_CONTENIDOS_DEFAULT) {
             throw new PlaylistLlenaException("Playlist llena: " + this.nombre);
         }
+        // Verifica que la canción no esté ya en la lista
         if (this.contenidos.contains(contenido)) {
             throw new ContenidoDuplicadoException("El contenido " + contenido.getTitulo() + " ya existe.");
         }
@@ -64,17 +71,21 @@ public class Playlist {
         return this.contenidos.remove(contenido);
     }
 
+    /**
+     * Cambia el orden de la lista según lo que prefiera el usuario.
+     */
     public void ordenarPor(CriterioOrden criterio) throws PlaylistVaciaException {
         if (estaVacia()) throw new PlaylistVaciaException("No se puede ordenar una playlist vacía.");
 
         switch (criterio) {
-            // Ordena los contenidos de menor a mayor duración en segundos
             case DURACION -> contenidos.sort(Comparator.comparingInt(Contenido::getDuracionSegundos));
-            // Ordena los contenidos basándose en el número de reproducciones acumuladas
             case POPULARIDAD -> contenidos.sort(Comparator.comparingInt(Contenido::getReproducciones).reversed());
         }
     }
 
+    /**
+     * Suma los segundos de todo el contenido para saber cuánto dura la playlist completa.
+     */
     public int getDuracionTotal() {
         int sumaDuracion = 0;
         for (Contenido c : contenidos) {
@@ -84,63 +95,122 @@ public class Playlist {
     }
 
     public String getDuracionTotalFormateada() {
-        int total = getDuracionTotal();
-        int h = total / 3600;
-        int m = (total % 3600) / 60;
-        int s = total % 60;
-        return String.format("%02d:%02d:%02d", h, m, s);
+        return "";
     }
 
+    /**
+     * Mezcla los contenidos de forma aleatoria.
+     */
     public void shuffle() {
         Collections.shuffle(this.contenidos);
     }
 
-    public ArrayList<Contenido> buscarContenido(String termino) {
-        ArrayList<Contenido> resultados = new ArrayList<>();
-        for (Contenido c : contenidos) {
-            if (c.getTitulo().toLowerCase().contains(termino.toLowerCase())) {
-                resultados.add(c);
-            }
-        }
-        return resultados;
+    public ArrayList<Contenido> buscarContenido(String palabra) {
+        return new ArrayList<>();
     }
 
-    public void hacerPublica() { this.esPublica = true; }
+    public void hacerPublica() {
+        this.esPublica = true;
+    }
 
-    public void hacerPrivada() { this.esPublica = false; }
+    public void hacerPrivada() {
+        this.esPublica = false;
+    }
 
-    public void incrementarSeguidores() { this.seguidores++; }
+    /**
+     * Suma un nuevo seguidor al contador de la playlist.
+     */
+    public void incrementarSeguidores() {
+        this.seguidores++;
+    }
 
+    /**
+     * Resta un seguidor, asegurándose de no bajar de cero.
+     */
     public void decrementarSeguidores() {
         if (this.seguidores > 0) this.seguidores--;
     }
 
-    public int getNumContenidos() { return this.contenidos.size(); }
+    /**
+     * Indica cuántos elementos hay guardados en total.
+     */
+    public int getNumContenidos() {
+        return this.contenidos.size();
+    }
 
-    public boolean estaVacia() { return this.contenidos.isEmpty(); }
+    public boolean estaVacia() {
+        return this.contenidos.isEmpty();
+    }
 
+    /**
+     * Obtiene el contenido que esté en una posición específica de la lista.
+     */
     public Contenido getContenido(int posicion) {
         if (posicion < 0 || posicion >= contenidos.size()) return null;
         return contenidos.get(posicion);
     }
 
-    // --- GETTERS (Con copia defensiva) ---
+    // Getters and Setters
 
     public ArrayList<Contenido> getContenidos() {
-        return new ArrayList<>(this.contenidos); // Copia defensiva
+        return new ArrayList<>(this.contenidos);
     }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-    public Usuario getCreador() { return creador; }
-    public boolean isEsPublica() { return esPublica; }
-    public void setEsPublica(boolean esPublica) { this.esPublica = esPublica; }
-    public int getSeguidores() { return seguidores; }
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-    public String getPortadaURL() { return portadaURL; }
-    public void setPortadaURL(String portadaURL) { this.portadaURL = portadaURL; }
-    public Date getFechaCreacion() { return fechaCreacion; }
-    public int getMaxContenidos() { return maxContenidos; }
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * Obtiene el usuario que creó la lista.
+     */
+    public Usuario getCreador() {
+        return creador;
+    }
+
+    /**
+     * Indica si la playlist es visible para otros usuarios.
+     */
+    public boolean isEsPublica() {
+        return esPublica;
+    }
+
+    public void setEsPublica(boolean esPublica) {
+        this.esPublica = esPublica;
+    }
+
+    /**
+     * Devuelve el número de personas que siguen esta lista.
+     */
+    public int getSeguidores() {
+        return seguidores;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getPortadaURL() {
+        return portadaURL;
+    }
+
+    public void setPortadaURL(String portadaURL) {
+        this.portadaURL = portadaURL;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public int getMaxContenidos() {
+        return maxContenidos;
+    }
 
 }

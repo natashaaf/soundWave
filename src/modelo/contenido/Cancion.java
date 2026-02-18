@@ -47,8 +47,7 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         this.descargado = false;
     }
 
-
-    // Constructores2 (canción con letra y flag explícito)
+        // Constructores2 (canción con letra y flag explícito)
     public Cancion(String titulo, int duracionSegundos, Artista artista, GeneroMusical genero, String letra, boolean explicit) throws DuracionInvalidaException {
         super(titulo, duracionSegundos);
 
@@ -210,7 +209,7 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         return false;
     }
 
-    // No se utiliza en ninguno lado
+        // No se utiliza en ninguno lado
     @Override
     public int espacioRequerido() {
         return 0;
