@@ -1,4 +1,5 @@
 package modelo.artistas;
+
 import enums.GeneroMusical;
 import excepciones.artista.AlbumCompletoException;
 import excepciones.contenido.DuracionInvalidaException;

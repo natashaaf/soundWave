@@ -1,4 +1,5 @@
 package modelo.contenido;
+
 import excepciones.contenido.ContenidoNoDisponibleException;
 import excepciones.contenido.DuracionInvalidaException;
 

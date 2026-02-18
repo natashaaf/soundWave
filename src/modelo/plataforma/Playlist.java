@@ -1,4 +1,5 @@
 package modelo.plataforma;
+
 import enums.CriterioOrden;
 import excepciones.playlist.ContenidoDuplicadoException;
 import excepciones.playlist.PlaylistLlenaException;
@@ -6,7 +7,6 @@ import excepciones.playlist.PlaylistVaciaException;
 import modelo.contenido.Contenido;
 import modelo.usuarios.Usuario;
 import java.util.UUID;
-
 import java.util.*;
 
 public class Playlist {
