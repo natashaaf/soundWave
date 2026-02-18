@@ -13,6 +13,10 @@ import modelo.artistas.Artista;
 
 import java.util.UUID;
 
+/**
+ * Clase Cancion en la plataforma.
+ * Implementa las interfaces para que pueda ser reproducida y descargada.
+ */
 public class Cancion extends Contenido implements Reproducible, Descargable {
 
     // Atributos
@@ -29,25 +33,27 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
 
     // Constructores
 
-    // Constructores basico (URL por defecto y ISRC)
+    /**
+     * Constructor básico para una canción con valores por defecto.
+     */
     public Cancion(String titulo, int duracionSegundos, Artista artista, GeneroMusical genero) throws DuracionInvalidaException {
         super(titulo, duracionSegundos);
         this.artista = artista;
         this.genero = genero;
 
-        // Valores por defecto
         this.ISRC = generarISRC();
         this.letra = null;
         this.audioURL = "https://audioPorDefecto/track.mp3";
         this.explicit = false;
 
-        // Estado por defecto de las canciones
         this.reproduciendo = false;
         this.pausado = false;
         this.descargado = false;
     }
 
-        // Constructores2 (canción con letra y flag explícito)
+    /**
+     * Constructor para canciones que incluyen letra y marca de contenido explícito.
+     */
     public Cancion(String titulo, int duracionSegundos, Artista artista, GeneroMusical genero, String letra, boolean explicit) throws DuracionInvalidaException {
         super(titulo, duracionSegundos);
 
@@ -61,34 +67,52 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
     }
 
     // Getters and setters
+
+    /**
+     * Obtiene la letra de la canción.
+     */
     public String getLetra() {
         return letra;
     }
 
+    /**
+     * Permite asignar o cambiar la letra de la canción.
+     */
     public void setLetra(String letra) {
         this.letra = letra;
     }
 
-    public Artista getArtista() {
-        return artista;
-    }
+    /**
+     * Devuelve el objeto Artista que compuso la canción.
+     */
+    public Artista getArtista() { return artista; }
 
+    /**
+     * Asigna un artista a la canción.
+     */
     public void setArtista(Artista artista) {
         this.artista = artista;
     }
 
+    /**
+     * Obtiene el álbum al que pertenece esta canción.
+     */
     public Album getAlbum() {
         return album;
     }
 
+    /**
+     * Asigna la canción a un álbum específico.
+     */
     public void setAlbum(Album album) {
         this.album = album;
     }
 
+    /**
+     * Devuelve el género musical de la canción.
+     */
     @Override
-    public GeneroMusical getGenero() {
-        return this.genero;
-    }
+    public GeneroMusical getGenero() { return this.genero; }
 
     public void setGenero(GeneroMusical genero) {
         this.genero = genero;
@@ -102,10 +126,14 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         this.audioURL = audioURL;
     }
 
-    public boolean isExplicit() {
-        return explicit;
-    }
+    /**
+     *  Indica si la canción contiene lenguaje explícito.
+     */
+    public boolean isExplicit() { return explicit; }
 
+    /**
+     * Define si la canción debe marcarse como explícita o no.
+     */
     public void setExplicit(boolean explicit) {
         this.explicit = explicit;
     }
@@ -142,9 +170,11 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         this.descargado = descargado;
     }
 
-    // Overrides
+    // Overrides de Contenido
 
-    // Override contenido
+    /**
+     * Inicia la reproducción básica si el archivo está disponible en la plataforma.
+     */
     @Override
     public void reproducir() throws ContenidoNoDisponibleException {
         if(isDisponible()){
@@ -156,15 +186,21 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
     }
 
     // Implementación interfaz reproducible
+
+    /**
+     * Empieza a sonar la música y actualiza el estado visual del reproductor.
+     */
     @Override
     public void play() {
         this.reproduciendo = true;
         this.pausado = false;
-
         System.out.println("Reproduciendo canción: " + getTitulo() + " - " + artista.getNombreArtistico());
         System.out.println("Estado: [PLAY]");
     }
 
+    /**
+     * Detiene temporalmente la música si estaba reproduciendo.
+     */
     @Override
     public void pause() {
         if (this.reproduciendo) {
@@ -175,6 +211,9 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         }
     }
 
+    /**
+     * Detiene la canción por completo y resetea los estados de reproducción.
+     */
     @Override
     public void stop() {
         this.reproduciendo = false;
@@ -189,16 +228,22 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
 
     // Implementación interfaz Descargable
 
+    /**
+     * Guarda la canción para uso offline. Lanza error si ya se bajó antes.
+     */
     @Override
     public boolean descargar() throws ContenidoYaDescargadoException {
         if (this.descargado) {
             throw new ContenidoYaDescargadoException("La canción ya fue descargada.");
         }
-        descargado = true;
+        this.descargado = true;
         System.out.println("Canción " + getTitulo() + " descargada con éxito.");
         return true;
     }
 
+    /**
+     * Elimina el archivo local de la canción descargada.
+     */
     @Override
     public boolean eliminarDescarga() {
         if (this.descargado) {
@@ -209,13 +254,16 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
         return false;
     }
 
-        // No se utiliza en ninguno lado
     @Override
     public int espacioRequerido() {
         return 0;
     }
 
-    // Métodos
+    // Métodos de lógica
+
+    /**
+     * Intenta obtener la letra; si no existe o está vacía, avisa con un error.
+     */
     public String obtenerLetra() throws LetraNoDisponibleException {
         if (this.letra == null || this.letra.isEmpty()) {
             throw new LetraNoDisponibleException("No se encontró la letra.");
@@ -238,17 +286,16 @@ public class Cancion extends Contenido implements Reproducible, Descargable {
             throw new ArchivoAudioNoEncontradoException("La URL de audio tiene un formato inválido.");
         }
     }
+
+    /**
+     * Genera un código de identificación musical único basado en UUID.
+     */
     private String generarISRC() {
         return "ISRC: " + UUID.randomUUID().toString().substring(0,8).toUpperCase();
     }
 
     @Override
     public String toString() {
-        return "Cancion{" +
-                "artista:" + artista +
-                "duración:" + getDuracionSegundos() +
-                '}';
+        return "Cancion: " + getTitulo() + " - " + (artista != null ? artista.getNombreArtistico() : "Desconocido");
     }
-
 }
-

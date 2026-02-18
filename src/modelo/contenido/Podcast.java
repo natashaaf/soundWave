@@ -11,6 +11,9 @@ import interfaces.Reproducible;
 import modelo.artistas.Creador;
 import java.util.ArrayList;
 
+/**
+ * Gestiona temporadas, invitados y transcripciones de podcast de la Plataforma.
+ */
 public class Podcast extends Contenido implements Reproducible, Descargable {
 
     // Atributos
@@ -25,7 +28,8 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
     private boolean pausado;
     private boolean descargado;
 
-    // Constructores sin descripcion
+    // Constructores
+
     public Podcast(String titulo, int duracionSegundos, Creador creador, int numeroEpisodio, int temporada, CategoriaPodcast categoria) throws DuracionInvalidaException {
         super(titulo, duracionSegundos);
         this.creador = creador;
@@ -35,7 +39,6 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
         this.invitados = new ArrayList<>();
     }
 
-    // Constructores con descripcion
     public Podcast(String titulo, int duracionSegundos, Creador creador, int numeroEpisodio, int temporada, CategoriaPodcast categoria, String descripcion) throws DuracionInvalidaException {
         super(titulo, duracionSegundos);
         this.creador = creador;
@@ -47,80 +50,109 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
     }
 
     // Getters and setters
+
     public Creador getCreador() {
         return creador;
     }
-
     public void setCreador(Creador creador) {
         this.creador = creador;
     }
 
-    public int getNumeroEpisodio() { return numeroEpisodio;}
+    public int getNumeroEpisodio() {
+        return numeroEpisodio;
+    }
 
-    public void setNumeroEpisodio(int numeroEpisodio) { this.numeroEpisodio = numeroEpisodio;}
+    public void setNumeroEpisodio(int numeroEpisodio) {
+        this.numeroEpisodio = numeroEpisodio;
+    }
 
     public int getTemporada() {
         return temporada;
     }
 
-    public void setTemporada(int temporada) { this.temporada = temporada;}
-
-    public String getDescripcion() {
-        return descripcion;
+    public void setTemporada(int temporada) {
+        this.temporada = temporada;
     }
 
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion;}
+    public String getDescripcion() {
+        return descripcion; }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     public CategoriaPodcast getCategoria() {
         return categoria;
     }
 
+    /**
+     * Implementación del método de la clase padre para obtener el género.
+     * */
     @Override
     public CategoriaPodcast getGenero() {
         return this.categoria;
     }
 
-    public void setCategoria(CategoriaPodcast categoria) {this.categoria = categoria;}
+    public void setCategoria(CategoriaPodcast categoria) {
+        this.categoria = categoria;
+    }
 
+    /**
+     *  Devuelve una copia de la lista de invitados para proteger la original.
+     *  */
     public ArrayList<String> getInvitados() {
         return new ArrayList<>(this.invitados);
     }
 
     public void setInvitados(ArrayList<String> invitados) {
-        this.invitados = invitados;}
+        this.invitados = invitados;
+    }
 
     public String getTranscripcion() {
         return transcripcion;
     }
-
     public void setTranscripcion(String transcripcion) {
         this.transcripcion = transcripcion;
     }
 
-    public boolean isReproduciendo() {return reproduciendo;}
+    public boolean isReproduciendo() {
+        return reproduciendo;
+    }
+    public void setReproduciendo(boolean reproduciendo) {
+        this.reproduciendo = reproduciendo;
+    }
 
-    public void setReproduciendo(boolean reproduciendo) {this.reproduciendo = reproduciendo;}
+    public boolean isPausado() {
+        return pausado; }
 
-    public boolean isPausado() {return pausado;}
+    public void setPausado(boolean pausado) {
+        this.pausado = pausado;
+    }
 
-    public void setPausado(boolean pausado) {this.pausado = pausado;}
+    public boolean isDescargado() {
+        return descargado;
+    }
+    public void setDescargado(boolean descargado) {
+        this.descargado = descargado;
+    }
 
-    public boolean isDescargado() {return descargado;}
+    // Overrides de Contenido
 
-    public void setDescargado(boolean descargado) { this.descargado = descargado;}
-
-    //Overrides
+    /**
+     * Activa el estado de reproducción y suma una visita si el podcast está disponible.
+     * */
     @Override
     public void reproducir() throws ContenidoNoDisponibleException {
         if (isDisponible()) {
             this.reproduciendo = true;
             this.reproducciones++;
-        } else{
-            throw new ContenidoNoDisponibleException("Contenido no disponible. ");
+        } else {
+            throw new ContenidoNoDisponibleException("Contenido no disponible.");
         }
     }
 
-    // Implementación interfaz reproducible
+    // Implementación de interfaz Reproducible
+
     public void play() {
         this.reproduciendo = true;
         this.pausado = false;
@@ -141,42 +173,50 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
     }
 
     @Override
-    public int getDuracion() {
-        return getDuracionSegundos();
-    }
+    public int getDuracion() { return getDuracionSegundos(); }
 
-    // Implementación interfaz descargable
+    // Implementación de interfaz Descargable
+
+    /**
+     *  Marca el podcast como bajado. Si ya lo estaba, avisa con un error.
+     *  */
     public boolean descargar() throws ContenidoYaDescargadoException {
         if (descargado) {
-            this.descargado = true;
             throw new ContenidoYaDescargadoException("Este podcast ya fue descargado");
         } else {
+            this.descargado = true;
             System.out.println("Contenido descargado.");
+            return true;
         }
-        return false;
     }
 
     public boolean eliminarDescarga() {
         if (descargado) {
-            System.out.println("Contenido eliminado. ");
+            this.descargado = false;
+            System.out.println("Contenido eliminado.");
+            return true;
         }
         return false;
     }
 
-    public int espacioRequerido() {  // No se utiliza en ninguno lado
+    public int espacioRequerido() {
         return 0;
     }
 
-    // Métodos
+    // Métodos de lógica
+
     public String obtenerDescripcion() {
         return getDescripcion();
     }
 
+    /**
+     * Añade un nombre a la lista de invitados si no está vacío y no está ya registrado.
+     * */
     public void agregarInvitado(String nombre) {
-        if (nombre != null && nombre != " ") {
-            if (!invitados.contains(nombre)){
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            if (!invitados.contains(nombre)) {
                 invitados.add(nombre);
-                System.out.println("Invitado " + nombre + " añadida con suceso.");
+                System.out.println("Invitado " + nombre + " añadido correctamente.");
             } else {
                 System.out.println("Este invitado ya está en la lista.");
             }
@@ -184,38 +224,30 @@ public class Podcast extends Contenido implements Reproducible, Descargable {
     }
 
     public boolean esTemporadaNueva() {
-        if (temporada == 1) {
-            return true;
-        } return false;
+        return temporada == 1;
     }
-    public String obtenerTranscripcion() throws TranscripcionNoDisponibleException{
-        if (transcripcion != null){
+
+    /**
+     * Devuelve el texto del episodio si existe; si no, lanza un error.
+     * */
+    public String obtenerTranscripcion() throws TranscripcionNoDisponibleException {
+        if (transcripcion != null) {
             return this.transcripcion;
-        } else{
+        } else {
             throw new TranscripcionNoDisponibleException("Transcripción no disponible.");
         }
     }
+
+    /**
+     * Valida que los números de episodio y temporada sean coherentes.
+     * */
     public void validarEpisodio() throws EpisodioNoEncontradoException {
-        if (this.numeroEpisodio <= 0 || this.temporada <= 1)
-            throw  new EpisodioNoEncontradoException("Episodio invalido.");
+        if (this.numeroEpisodio <= 0 || this.temporada < 1)
+            throw new EpisodioNoEncontradoException("Episodio inválido.");
     }
 
     @Override
     public String toString() {
-        return "Podcast{" +
-                "creador=" + creador +
-                ", numeroEpisodio=" + numeroEpisodio +
-                ", temporada=" + temporada +
-                ", descripcion='" + descripcion + '\'' +
-                ", categoria=" + categoria +
-                ", invitados=" + invitados +
-                ", transcripcion='" + transcripcion + '\'' +
-                ", reproduciendo=" + reproduciendo +
-                ", pausado=" + pausado +
-                ", descargado=" + descargado +
-                '}';
+        return "Podcast: " + getTitulo() + " (Temporada " + temporada + ", Ep. " + numeroEpisodio + ")";
     }
 }
-
-
-
