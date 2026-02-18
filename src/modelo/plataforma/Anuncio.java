@@ -21,6 +21,7 @@ public class Anuncio {
         this.audioURL = audioURL;
         this.tipo = tipo;
         this.presupuesto = presupuesto;
+        this.activo = true;
     }
 
     // Constructores basico

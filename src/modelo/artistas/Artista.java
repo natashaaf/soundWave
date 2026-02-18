@@ -86,8 +86,8 @@ public class Artista {
     public boolean isVerificado() {
         return verificado;}
 
-    public void setVerificado(boolean verificado) {
-        this.verificado = verificado;}
+    public void setVerificado() {
+        this.verificado = true;}
 
     public String getBiografia() {
         return biografia;}
@@ -145,8 +145,8 @@ public class Artista {
     }
     public int getTotalReproducciones(){
         int total = 0;
-        for (Cancion c : discografia){
-            total += c.getReproducciones();
+        for (Album album : albumes){
+            total += album.getTotalReproducciones();
         }
         return total;
     }
